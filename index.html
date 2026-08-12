@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="सरकारी नौकरी, परीक्षा परिणाम, एडमिट कार्ड, आंसर की और परीक्षा संबंधी नवीनतम जानकारी।">
+<title>Exam Darpan - सरकारी नौकरी और परीक्षा पोर्टल</title>
+<style>
+:root{
+  --navy:#102a72;
+  --blue:#1769e0;
+  --red:#c62828;
+  --green:#168a4a;
+  --orange:#e67e22;
+  --bg:#f3f6fb;
+  --text:#182033;
+  --muted:#64748b;
+  --border:#dce3ef;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Devanagari",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+.container{max-width:1120px;margin:auto;padding:0 14px}
+.top{
+  background:var(--navy);
+  color:#fff;
+  font-size:13px;
+}
+.top .container{display:flex;justify-content:space-between;gap:12px;padding-top:8px;padding-bottom:8px}
+header{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+}
+.header-main{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:18px;padding:18px 0;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:52px;height:52px;border-radius:12px;background:var(--red);
+  color:#fff;display:grid;place-items:center;font-weight:900;font-size:23px;
+}
+.brand h1{margin:0;font-size:27px;color:var(--navy)}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.search{
+  display:flex;max-width:380px;width:100%;
+  border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;
+}
+.search input{border:0;outline:0;padding:12px 13px;flex:1;font-size:14px}
+.search button{border:0;background:var(--blue);color:#fff;padding:0 18px;font-weight:bold;cursor:pointer}
+nav{background:var(--navy);color:#fff}
+.nav{display:flex;align-items:center;overflow:auto}
+.nav a{padding:13px 15px;white-space:nowrap;font-size:14px}
+.nav a:hover{background:#173b91}
+.hero{
+  margin:18px 0;
+  background:linear-gradient(110deg,#102a72,#1769e0);
+  color:#fff;border-radius:14px;padding:24px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.hero h2{margin:0 0 7px;font-size:25px}
+.hero p{margin:0;color:#eaf2ff;line-height:1.6}
+.hero .cta{
+  background:#fff;color:var(--navy);padding:11px 16px;border-radius:9px;
+  font-weight:bold;white-space:nowrap;
+}
+.quick{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px;
+}
+.quick a{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:14px 8px;text-align:center;font-weight:bold;font-size:13px;
+  box-shadow:0 2px 8px rgba(16,42,114,.04);
+}
+.quick a:hover{border-color:var(--blue);transform:translateY(-1px)}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+.card{
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;box-shadow:0 3px 12px rgba(16,42,114,.05);
+}
+.card h3{
+  margin:0;padding:12px 15px;color:#fff;font-size:18px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card h3 span{font-size:12px;font-weight:normal;background:#fff2;padding:4px 8px;border-radius:20px}
+.jobs h3{background:var(--red)}
+.results h3{background:var(--green)}
+.admit h3{background:var(--blue)}
+.answer h3{background:var(--orange)}
+.list{padding:7px 15px}
+.list a{
+  display:block;padding:11px 4px;border-bottom:1px dashed #d9dfeb;
+  font-size:14px;line-height:1.45;color:#153b91;
+}
+.list a:last-child{border-bottom:0}
+.list a:before{content:"›";font-weight:bold;margin-right:8px;color:var(--red)}
+.more{display:block;text-align:right;padding:10px 15px;color:var(--blue);font-weight:bold;font-size:13px}
+.notice{
+  margin:18px 0;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;
+}
+.notice h3{margin:0 0 8px;color:var(--navy)}
+.notice p{margin:0;color:#475569;line-height:1.65;font-size:14px}
+footer{margin-top:24px;background:#0d1f52;color:#dce6ff}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:25px;padding:28px 14px}
+footer h3{margin-top:0;color:#fff}
+footer a{display:block;margin:8px 0;color:#dce6ff;font-size:14px}
+.copy{border-top:1px solid #29417b;padding:12px 14px;text-align:center;font-size:12px}
+@media(max-width:800px){
+  .quick{grid-template-columns:repeat(3,1fr)}
+  .header-main{align-items:flex-start;flex-direction:column}
+  .search{max-width:none}
+  .hero{flex-direction:column;align-items:flex-start}
+  .grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .container{padding:0 10px}
+  .brand h1{font-size:23px}
+  .brand p{font-size:12px}
+  .quick{grid-template-columns:repeat(2,1fr)}
+  .quick a{padding:12px 6px}
+  .hero{padding:19px}
+  .hero h2{font-size:21px}
+  .card h3{font-size:16px}
+  .list a{font-size:13px}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="container">
+    <span>नवीनतम सरकारी नौकरी और परीक्षा अपडेट</span>
+    <span>अपडेटेड: आज</span>
+  </div>
+</div>
+
+<header>
+  <div class="container header-main">
+    <a class="brand" href="#">
+      <div class="logo">ED</div>
+      <div>
+        <h1>Exam Darpan</h1>
+        <p>सरकारी नौकरी • परिणाम • परीक्षा जानकारी</p>
+      </div>
+    </a>
+    <form class="search" onsubmit="return searchSite(event)">
+      <input id="searchBox" type="search" placeholder="नौकरी, रिजल्ट या परीक्षा खोजें...">
+      <button type="submit">खोजें</button>
+    </form>
+  </div>
+</header>
+
+<nav>
+  <div class="container nav">
+    <a href="#">होम</a>
+    <a href="#jobs">Latest Jobs</a>
+    <a href="#results">Results</a>
+    <a href="#admit">Admit Card</a>
+    <a href="#answer">Answer Key</a>
+    <a href="#">Admissions</a>
+    <a href="#">Syllabus</a>
+    <a href="#">Quiz</a>
+  </div>
+</nav>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <h2>आज की जरूरी परीक्षा जानकारी एक जगह</h2>
+      <p>सरकारी नौकरी, रिजल्ट, एडमिट कार्ड, आंसर की और प्रतियोगी परीक्षाओं के अपडेट सरल हिंदी में।</p>
+    </div>
+    <a class="cta" href="#jobs">नवीनतम भर्तियाँ देखें →</a>
+  </section>
+
+  <section class="quick" aria-label="त्वरित श्रेणियाँ">
+    <a href="#jobs">💼<br>Latest Jobs</a>
+    <a href="#results">📋<br>Results</a>
+    <a href="#admit">🎫<br>Admit Card</a>
+    <a href="#answer">🔑<br>Answer Key</a>
+    <a href="#">🎓<br>Admissions</a>
+    <a href="#">📝<br>Exam Quiz</a>
+  </section>
+
+  <section class="grid">
+    <article class="card jobs" id="jobs">
+      <h3>Latest Jobs <span>नवीनतम</span></h3>
+      <div class="list">
+        <a href="#">केंद्रीय विभाग भर्ती 2026 – ऑनलाइन आवेदन शुरू</a>
+        <a href="#">राज्य स्तरीय शिक्षक भर्ती 2026 – आवेदन की जानकारी</a>
+        <a href="#">बैंकिंग भर्ती 2026 – पात्रता और महत्वपूर्ण तिथियाँ</a>
+        <a href="#">रेलवे भर्ती 2026 – पद, योग्यता और आवेदन प्रक्रिया</a>
+        <a href="#">SSC भर्ती 2026 – परीक्षा संबंधी नवीनतम अपडेट</a>
+        <a href="#">पुलिस भर्ती 2026 – आवेदन एवं चयन प्रक्रिया</a>
+      </div>
+      <a class="more" href="#">सभी Latest Jobs देखें →</a>
+    </article>
+
+    <article class="card results" id="results">
+      <h3>Latest Results <span>परिणाम</span></h3>
+      <div class="list">
+        <a href="#">विश्वविद्यालय परीक्षा परिणाम 2026 – जारी</a>
+        <a href="#">राज्य भर्ती परीक्षा परिणाम 2026 – देखें</a>
+        <a href="#">SSC परीक्षा परिणाम 2026 – नवीन अपडेट</a>
+        <a href="#">रेलवे परीक्षा परिणाम 2026 – चेक करें</a>
+        <a href="#">शिक्षक भर्ती परीक्षा परिणाम 2026 – जारी</a>
+        <a href="#">बैंकिंग परीक्षा परिणाम 2026 – डाउनलोड करें</a>
+      </div>
+      <a class="more" href="#">सभी Results देखें →</a>
+    </article>
+
+    <article class="card admit" id="admit">
+      <h3>Admit Card <span>प्रवेश पत्र</span></h3>
+      <div class="list">
+        <a href="#">रेलवे परीक्षा Admit Card 2026 – डाउनलोड</a>
+        <a href="#">SSC परीक्षा Admit Card 2026 – जारी</a>
+        <a href="#">पुलिस भर्ती PET/PST Admit Card 2026</a>
+        <a href="#">शिक्षक भर्ती परीक्षा Admit Card 2026</a>
+        <a href="#">बैंकिंग परीक्षा Admit Card 2026</a>
+        <a href="#">विश्वविद्यालय प्रवेश परीक्षा Admit Card 2026</a>
+      </div>
+      <a class="more" href="#">सभी Admit Cards देखें →</a>
+    </article>
+
+    <article class="card answer" id="answer">
+      <h3>Answer Key <span>उत्तर कुंजी</span></h3>
+      <div class="list">
+        <a href="#">SSC परीक्षा Answer Key 2026 – जारी</a>
+        <a href="#">रेलवे परीक्षा Answer Key 2026 – डाउनलोड</a>
+        <a href="#">शिक्षक भर्ती Answer Key 2026 – आपत्ति विवरण</a>
+        <a href="#">बैंकिंग परीक्षा Answer Key 2026 – देखें</a>
+        <a href="#">राज्य भर्ती Answer Key 2026 – नवीन अपडेट</a>
+        <a href="#">प्रवेश परीक्षा Answer Key 2026 – जारी</a>
+      </div>
+      <a class="more" href="#">सभी Answer Keys देखें →</a>
+    </article>
+  </section>
+
+  <section class="notice">
+    <h3>Exam Darpan के बारे में</h3>
+    <p>
+      Exam Darpan एक स्वतंत्र परीक्षा सूचना पोर्टल का नमूना है।
+      यहाँ भर्ती, परिणाम, एडमिट कार्ड, उत्तर कुंजी और प्रतियोगी परीक्षाओं से संबंधित
+      जानकारी को सरल और व्यवस्थित तरीके से प्रस्तुत किया जा सकता है।
+      वास्तविक वेबसाइट पर हर महत्वपूर्ण जानकारी के साथ आधिकारिक स्रोत का लिंक देना बेहतर रहेगा।
+    </p>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h3>Exam Darpan</h3>
+      <p>सरकारी नौकरी और प्रतियोगी परीक्षाओं की जानकारी एक सरल, मोबाइल-फ्रेंडली प्लेटफॉर्म पर।</p>
+    </div>
+    <div>
+      <h3>महत्वपूर्ण</h3>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Disclaimer</a>
+    </div>
+    <div>
+      <h3>श्रेणियाँ</h3>
+      <a href="#jobs">Latest Jobs</a>
+      <a href="#results">Results</a>
+      <a href="#admit">Admit Card</a>
+      <a href="#answer">Answer Key</a>
+    </div>
+  </div>
+  <div class="copy">© 2026 Exam Darpan. All rights reserved.</div>
+</footer>
+
+<script>
+function searchSite(e){
+  e.preventDefault();
+  const q=document.getElementById("searchBox").value.trim();
+  if(!q){document.getElementById("searchBox").focus();return false;}
+  alert("Search system को आपके वास्तविक article/database से जोड़ा जा सकता है।\nखोज: "+q);
+  return false;
+}
+</script>
+</body>
+</html>
