@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exam Darpan — सरकारी नौकरी और परीक्षा अपडेट</title>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f4f7fb; color: #1e293b; -webkit-tap-highlight-color: transparent; }
+
+.header-top { background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff; text-align: center; padding: 20px 15px; }
+.header-top h1 { font-size: 28px; margin-bottom: 5px; font-weight: 900; letter-spacing: 1px; }
+.header-top p { font-size: 13px; color: #94a3b8; letter-spacing: 2px; }
+.nav-bar { background: #2563eb; color: #fff; padding: 12px 15px; font-size: 15px; font-weight: 700; display: flex; justify-content: space-between; }
+
+main { max-width: 1000px; margin: 20px auto; padding: 0 10px; }
+
+.ad-banner {
+  background: #e2e8f0;
+  color: #64748b;
+  text-align: center;
+  padding: 20px;
+  margin: 15px 0;
+  border: 1px dashed #cbd5e1;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.toggle-bar {
+  background: #2563eb;
+  color: #fff;
+  text-align: center;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  user-select: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: background 0.2s;
+}
+.toggle-bar:hover { background: #1d4ed8; }
+
+.color-blocks { display: none; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+.c-box { flex: 1 1 calc(50% - 12px); text-align: center; color: #fff; text-decoration: none; padding: 14px 10px; font-size: 13px; font-weight: 700; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; }
+.c-box:active { transform: scale(0.98); }
+.bg-1 { background: #0ea5e9; }
+.bg-2 { background: #8b5cf6; }
+.bg-3 { background: #10b981; }
+.bg-4 { background: #f59e0b; }
+.bg-5 { background: #ef4444; }
+.bg-6 { background: #64748b; }
+
+.ed-container { display: flex; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 25px; background: #fff; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.ed-col { width: 50%; display: flex; flex-direction: column; }
+.ed-col.left-col { border-right: 1px solid #cbd5e1; }
+
+.ed-heading { background: #f8fafc; color: #0f172a; text-align: center; font-size: 16px; font-weight: 800; padding: 12px 5px; border-bottom: 1px solid #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.ed-list { list-style-type: none; padding: 12px 15px; margin: 0; }
+.ed-list li { position: relative; margin-bottom: 14px; padding-left: 15px; }
+.ed-list li::before { content: "■"; color: #2563eb; position: absolute; left: 0; top: 2px; font-size: 10px; }
+.ed-list a { text-decoration: none; color: #334155; font-size: 14px; font-weight: 600; line-height: 1.4; display: block; }
+.ed-list a:hover { color: #2563eb; }
+
+.view-more { display: block; text-align: center; padding: 10px; margin: auto 15px 15px; background: #f1f5f9; font-size: 13px; color: #475569; text-decoration: none; font-weight: 700; border-radius: 4px; }
+.view-more:hover { background: #e2e8f0; color: #0f172a; }
+
+.footer-area {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 30px 15px;
+  text-align: center;
+  margin-top: 40px;
+}
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.footer-links a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+.footer-links a:hover { color: #38bdf8; text-decoration: underline; }
+.footer-text { font-size: 12px; line-height: 1.5; max-width: 800px; margin: 0 auto; color: #64748b; }
+
+@media(max-width: 768px) {
+  .ed-list a { font-size: 13px; }
+  .ed-heading { font-size: 14px; padding: 10px 5px; }
+  .footer-links { gap: 10px; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <h1>EXAM DARPAN</h1>
+    <p>WWW.EXAMDARPAN.COM</p>
+  </div>
+  <div class="nav-bar">
+    <span>≡ Menu</span>
+    <span>🔍 Search</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="ad-banner">Responsive Advertisement Space</div>
+
+  <div class="toggle-bar" id="highlight-toggle">
+    प्रमुख हाइलाइट्स देखें ▼
+  </div>
+
+  <div class="color-blocks" id="color-blocks">
+    <a href="#" class="c-box bg-1">HPSC Civil Services Prelims Apply</a>
+    <a href="#" class="c-box bg-2">SBI Clerk Backlog Apply Online</a>
+    <a href="#" class="c-box bg-3">UP Anganwadi Worker Apply</a>
+    <a href="#" class="c-box bg-4">UPSSSC PET 2026 Apply Online</a>
+    <a href="#" class="c-box bg-5">Railway Track Engineer Apply Online</a>
+    <a href="#" class="c-box bg-6">MPESB Group II Apply Online</a>
+  </div>
+
+  <div class="ed-container">
+    <div class="ed-col left-col">
+      <div class="ed-heading">Result</div>
+      <ul class="ed-list">
+        <li><a href="#">Bihar BPSC District Statistical Officer DSO Mains Result 2026</a></li>
+        <li><a href="#">RPSC School Lecturer PGT Teacher Result 2026</a></li>
+        <li><a href="#">UPDELED 2026 Rank Card</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Results →</a>
+    </div>
+
+    <div class="ed-col">
+      <div class="ed-heading">Latest Job</div>
+      <ul class="ed-list">
+        <li><a href="#">Integral Coach Factory ICF Apprentices Online Form 2026</a></li>
+        <li><a href="#">Haryana HPSC Civil Services Online Form 2026</a></li>
+        <li><a href="#">Railway RJK Section Track Maintainer Online Form 2026</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Jobs →</a>
+    </div>
+  </div>
+
+  <div class="ad-banner">Responsive Advertisement Space</div>
+
+  <div class="ed-container">
+    <div class="ed-col left-col">
+      <div class="ed-heading">Admit Card</div>
+      <ul class="ed-list">
+        <li><a href="#">UPSC Civil Services Prelims Admit Card 2026</a></li>
+        <li><a href="#">NTA NEET UG 2026 Admit Card</a></li>
+        <li><a href="#">Haryana HPSC HCS Mains Admit Card</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Admit Cards →</a>
+    </div>
+
+    <div class="ed-col">
+      <div class="ed-heading">Syllabus</div>
+      <ul class="ed-list">
+        <li><a href="#">HPSC Civil Services New Syllabus 2026</a></li>
+        <li><a href="#">Railway RRB ALP & Technician Syllabus</a></li>
+        <li><a href="#">SSC GD Constable Revised Syllabus</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Syllabus →</a>
+    </div>
+  </div>
+
+  <div class="ed-container">
+    <div class="ed-col left-col">
+      <div class="ed-heading">Answer Key</div>
+      <ul class="ed-list">
+        <li><a href="#">HPSC Civil Services Prelims Answer Key 2026</a></li>
+        <li><a href="#">SSC GD Constable Official Answer Key</a></li>
+        <li><a href="#">CTET July 2026 Answer Key & OMR</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Answer Keys →</a>
+    </div>
+
+    <div class="ed-col">
+      <div class="ed-heading">Admission</div>
+      <ul class="ed-list">
+        <li><a href="#">UP DELED Rank Card | Online Counselling</a></li>
+        <li><a href="#">IIM CAT Admission Online Form 2026</a></li>
+        <li><a href="#">Bihar 2 Year BEd Admissions Allotment Result</a></li>
+      </ul>
+      <a href="#" class="view-more">View All Admissions →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer-area">
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact Us</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Disclaimer</a>
+  </div>
+  <p class="footer-text">
+    Disclaimer: Exam Darpan is an independent job and education portal. We gather information from various official websites and employment newspapers. While we strive for accuracy, we are not responsible for any errors or omissions. Always verify details with official notifications before applying.
+  </p>
+  <p class="footer-text" style="margin-top: 15px;">
+    © 2026 Exam Darpan. All Rights Reserved.
+  </p>
+</footer>
+
+<script>
+const toggleBtn = document.getElementById('highlight-toggle');
+const colorBlocks = document.getElementById('color-blocks');
+
+toggleBtn.addEventListener('click', function() {
+  if (colorBlocks.style.display === 'none' || colorBlocks.style.display === '') {
+    colorBlocks.style.display = 'flex';
+    toggleBtn.innerHTML = 'प्रमुख हाइलाइट्स छुपाएं ▲';
+  } else {
+    colorBlocks.style.display = 'none';
+    toggleBtn.innerHTML = 'प्रमुख हाइलाइट्स देखें ▼';
+  }
+});
+</script>
+
+</body>
+</html>
