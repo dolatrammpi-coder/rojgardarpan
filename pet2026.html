@@ -1,0 +1,1391 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UPSSSC PET 2026 Online Form - Exam Darpan</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:#f4f7fb;
+  color:#1e293b;
+  -webkit-tap-highlight-color:transparent
+}
+
+/* Header */
+.header-top{
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  color:#fff;
+  text-align:center;
+  padding:20px 15px
+}
+
+.header-top h1{
+  font-size:28px;
+  margin-bottom:5px;
+  font-weight:900;
+  letter-spacing:1px
+}
+
+.header-top p{
+  font-size:13px;
+  color:#94a3b8;
+  letter-spacing:2px
+}
+
+.nav-bar{
+  background:#2563eb;
+  color:#fff;
+  padding:12px 15px;
+  font-size:15px;
+  font-weight:700;
+  display:flex;
+  justify-content:space-between
+}
+
+/* Main */
+main{
+  max-width:1000px;
+  margin:20px auto;
+  padding:0 10px
+}
+
+/* Breadcrumb */
+.breadcrumbs{
+  font-size:13px;
+  color:#64748b;
+  margin-bottom:15px;
+  font-weight:600
+}
+
+.breadcrumbs a{
+  color:#2563eb;
+  text-decoration:none
+}
+
+.breadcrumbs a:hover{
+  text-decoration:underline
+}
+
+/* Post */
+.post-container{
+  background:#fff;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  padding:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.02)
+}
+
+.post-title{
+  font-size:24px;
+  color:#0f172a;
+  margin-bottom:10px;
+  border-bottom:2px solid #2563eb;
+  padding-bottom:10px
+}
+
+.post-meta{
+  font-size:13px;
+  color:#475569;
+  margin-bottom:15px;
+  line-height:1.6
+}
+
+.post-meta strong{
+  color:#1e293b
+}
+
+.short-info{
+  background:#f8fafc;
+  padding:12px;
+  border-left:4px solid #2563eb;
+  font-size:14px;
+  margin-bottom:20px;
+  color:#334155;
+  line-height:1.7
+}
+
+/* Advertisement */
+.ad-banner{
+  background:#e2e8f0;
+  color:#64748b;
+  text-align:center;
+  padding:20px;
+  margin:15px 0;
+  border:1px dashed #cbd5e1;
+  font-size:12px;
+  border-radius:4px
+}
+
+/* Tables */
+.info-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:25px;
+  font-size:14px
+}
+
+.info-table th,
+.info-table td{
+  border:1px solid #cbd5e1;
+  padding:12px;
+  text-align:left;
+  vertical-align:top
+}
+
+.info-table th{
+  background:#f1f5f9;
+  color:#0f172a;
+  font-weight:700
+}
+
+.info-table ul{
+  padding-left:20px;
+  margin:0
+}
+
+.info-table li{
+  margin-bottom:5px;
+  line-height:1.5
+}
+
+/* Important Dates / Fee */
+.split-table{
+  width:100%;
+}
+
+.split-table th{
+  width:50%;
+}
+
+/* Section */
+.section-heading{
+  text-align:center;
+  font-size:18px;
+  color:#fff;
+  background:#0f172a;
+  padding:10px;
+  margin-bottom:0;
+  border-radius:4px 4px 0 0
+}
+
+.table-wrapper{
+  border:1px solid #0f172a;
+  border-radius:4px;
+  margin-bottom:25px;
+  overflow:hidden
+}
+
+.table-wrapper .info-table{
+  margin-bottom:0;
+  border:none
+}
+
+.table-wrapper .info-table th,
+.table-wrapper .info-table td{
+  border:1px solid #cbd5e1
+}
+
+/* Note */
+.note{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  padding:12px;
+  border-radius:4px;
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:20px
+}
+
+/* Exam Pattern */
+.exam-pattern-table{
+  width:100%;
+  table-layout:fixed;
+  border-collapse:collapse;
+  margin-bottom:0;
+}
+
+.exam-pattern-table th,
+.exam-pattern-table td{
+  border:1px solid #cbd5e1;
+  padding:12px 8px;
+  text-align:center;
+  vertical-align:middle;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+
+.exam-pattern-table th{
+  background:#f1f5f9;
+  font-weight:700;
+}
+
+.exam-pattern-table th:nth-child(1),
+.exam-pattern-table td:nth-child(1){
+  width:25%;
+}
+
+.exam-pattern-table th:nth-child(2),
+.exam-pattern-table td:nth-child(2){
+  width:20%;
+}
+
+.exam-pattern-table th:nth-child(3),
+.exam-pattern-table td:nth-child(3){
+  width:15%;
+}
+
+.exam-pattern-table th:nth-child(4),
+.exam-pattern-table td:nth-child(4){
+  width:40%;
+}
+
+/* Important Links */
+.links-heading{
+  text-align:center;
+  font-size:18px;
+  color:#fff;
+  background:#2563eb;
+  padding:10px;
+  margin-bottom:0;
+  border-radius:4px 4px 0 0
+}
+
+.links-wrapper{
+  border:1px solid #2563eb;
+  border-radius:4px;
+  margin-bottom:20px;
+  overflow:hidden
+}
+
+.links-wrapper .info-table{
+  margin-bottom:0;
+  border:none
+}
+
+.links-wrapper th{
+  font-size:15px;
+  color:#1e293b;
+  width:40%
+}
+
+.links-wrapper td{
+  text-align:center;
+  vertical-align:middle
+}
+
+/* Buttons */
+.btn-click{
+  background:#2563eb;
+  color:#fff;
+  padding:8px 16px;
+  text-decoration:none;
+  border-radius:4px;
+  display:inline-block;
+  font-weight:bold;
+  font-size:14px
+}
+
+.btn-click:hover{
+  background:#1d4ed8
+}
+
+.btn-outline{
+  color:#2563eb;
+  font-weight:bold;
+  text-decoration:none
+}
+
+.btn-outline:hover{
+  text-decoration:underline
+}
+
+/* FAQ */
+.faq-wrapper{
+  border:1px solid #0f172a;
+  border-radius:4px;
+  margin-bottom:25px;
+  overflow:hidden;
+}
+
+.faq-item{
+  border-bottom:1px solid #cbd5e1;
+}
+
+.faq-item:last-child{
+  border-bottom:none;
+}
+
+.faq-question{
+  width:100%;
+  border:0;
+  background:#f8fafc;
+  color:#0f172a;
+  padding:15px 16px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:700;
+  text-align:left;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.faq-question:hover{
+  background:#f1f5f9;
+}
+
+.faq-question span{
+  color:#2563eb;
+  font-size:22px;
+  line-height:1;
+  min-width:22px;
+  text-align:center;
+}
+
+.faq-item.active .faq-question{
+  color:#2563eb;
+  background:#f1f5f9;
+}
+
+.faq-answer{
+  display:none;
+  padding:14px 16px;
+  background:#fff;
+  color:#475569;
+  font-size:14px;
+  line-height:1.7;
+  border-top:1px solid #e2e8f0;
+}
+
+.faq-item.active .faq-answer{
+  display:block;
+}
+
+/* Footer */
+.footer-area{
+  background:#0f172a;
+  color:#94a3b8;
+  padding:30px 15px;
+  text-align:center;
+  margin-top:40px
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin-bottom:15px
+}
+
+.footer-links a{
+  color:#e2e8f0;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600
+}
+
+.footer-links a:hover{
+  color:#38bdf8;
+  text-decoration:underline
+}
+
+.footer-text{
+  font-size:12px;
+  line-height:1.5;
+  max-width:800px;
+  margin:0 auto;
+  color:#64748b
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+  .post-title{
+    font-size:20px
+  }
+
+  .post-container{
+    padding:14px
+  }
+
+  /*
+    Important Dates / Fee:
+    दोनों columns mobile पर भी side-by-side
+  */
+  .split-table{
+    display:table;
+    width:100%;
+  }
+
+  .split-table tbody{
+    display:table-row-group;
+  }
+
+  .split-table tr{
+    display:table-row;
+  }
+
+  .split-table th,
+  .split-table td{
+    display:table-cell;
+    width:50%;
+    vertical-align:top;
+    text-align:left;
+  }
+
+  /*
+    बाकी normal tables
+  */
+  .table-wrapper .info-table:not(.exam-pattern-table){
+    display:table;
+    width:100%;
+  }
+
+  .table-wrapper .info-table:not(.exam-pattern-table) tbody{
+    display:table-row-group;
+  }
+
+  .table-wrapper .info-table:not(.exam-pattern-table) tr{
+    display:table-row;
+  }
+
+  .table-wrapper .info-table:not(.exam-pattern-table) th,
+  .table-wrapper .info-table:not(.exam-pattern-table) td{
+    display:table-cell;
+    vertical-align:top;
+  }
+
+  /*
+    Exam Pattern को कभी block नहीं करना है
+  */
+  .exam-pattern-table{
+    display:table;
+    width:100%;
+    table-layout:fixed;
+    font-size:12px;
+  }
+
+  .exam-pattern-table tbody{
+    display:table-row-group;
+  }
+
+  .exam-pattern-table tr{
+    display:table-row;
+  }
+
+  .exam-pattern-table th,
+  .exam-pattern-table td{
+    display:table-cell;
+    padding:10px 5px;
+    text-align:center;
+    vertical-align:middle;
+  }
+
+  .exam-pattern-table th:nth-child(1),
+  .exam-pattern-table td:nth-child(1){
+    width:25%;
+  }
+
+  .exam-pattern-table th:nth-child(2),
+  .exam-pattern-table td:nth-child(2){
+    width:20%;
+  }
+
+  .exam-pattern-table th:nth-child(3),
+  .exam-pattern-table td:nth-child(3){
+    width:15%;
+  }
+
+  .exam-pattern-table th:nth-child(4),
+  .exam-pattern-table td:nth-child(4){
+    width:40%;
+  }
+
+  /*
+    Important Links 2-column
+  */
+  .links-wrapper .info-table{
+    display:table;
+    width:100%;
+  }
+
+  .links-wrapper .info-table tbody{
+    display:table-row-group;
+  }
+
+  .links-wrapper .info-table tr{
+    display:table-row;
+  }
+
+  .links-wrapper .info-table th,
+  .links-wrapper .info-table td{
+    display:table-cell;
+    vertical-align:middle;
+  }
+
+  .links-wrapper th{
+    width:40%;
+    text-align:left;
+  }
+
+  .links-wrapper td{
+    width:60%;
+    text-align:center;
+  }
+
+  /* FAQ */
+  .faq-question{
+    font-size:14px;
+    padding:14px 12px;
+  }
+
+  .faq-answer{
+    font-size:13px;
+    padding:12px;
+  }
+
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="header-top">
+  <h1>EXAM DARPAN</h1>
+  <p>WWW.EXAMDARPAN.COM</p>
+</div>
+
+<div class="nav-bar">
+  <span>≡ Menu</span>
+  <span>🏠 Home</span>
+</div>
+
+</header>
+
+
+<main>
+
+<!-- Breadcrumbs -->
+
+<div class="breadcrumbs">
+
+<a href="index.html">Home</a>
+»
+<a href="latest-jobs.html">Latest Jobs</a>
+»
+UPSSSC PET 2026 Online Form
+
+</div>
+
+
+<div class="post-container">
+
+
+<!-- Title -->
+
+<h1 class="post-title">
+UPSSSC Preliminary Eligibility Test (PET) 2026 Online Form
+</h1>
+
+
+<!-- Meta -->
+
+<div class="post-meta">
+
+<strong>Post Date / Update:</strong>
+01 August 2026<br>
+
+<strong>Organization:</strong>
+Uttar Pradesh Subordinate Services Selection Commission (UPSSSC), Lucknow<br>
+
+<strong>Advertisement No.:</strong>
+16-परीक्षा/2026
+
+</div>
+
+
+<!-- Short Information -->
+
+<div class="short-info">
+
+<strong>Short Information:</strong>
+
+उत्तर प्रदेश अधीनस्थ सेवा चयन आयोग (UPSSSC) ने प्रारम्भिक अर्हता परीक्षा (Preliminary Eligibility Test-PET)-2026 के लिए विज्ञापन संख्या 16-परीक्षा/2026 जारी किया है। ऑनलाइन पंजीकरण/आवेदन 03/08/2026 से शुरू होगा और 01/09/2026 तक किया जा सकेगा। शुल्क समायोजन एवं आवेदन में संशोधन की अंतिम तिथि 08/09/2026 है। PET-2026 विभिन्न समूह-ग की मुख्य परीक्षाओं में सम्मिलित होने के लिए प्रारम्भिक अर्हता परीक्षा है।
+
+</div>
+
+
+<!-- Advertisement -->
+
+<div class="ad-banner">
+Responsive Advertisement Space (AdSense)
+</div>
+
+
+<!-- Important Dates + Application Fee -->
+
+<table class="info-table split-table">
+
+<tr>
+
+<th>
+
+<div style="color:#cc0000;font-size:16px;margin-bottom:5px;">
+Important Dates
+</div>
+
+<ul>
+
+<li>
+विज्ञापन प्रकाशन की तिथि :
+<strong>01/08/2026</strong>
+</li>
+
+<li>
+पंजीकरण/ऑनलाइन आवेदन प्रारम्भ :
+<strong>03/08/2026</strong>
+</li>
+
+<li>
+ऑनलाइन आवेदन/शुल्क जमा करने की अंतिम तिथि :
+<strong style="color:#cc0000;">
+01/09/2026
+</strong>
+</li>
+
+<li>
+शुल्क समायोजन एवं आवेदन संशोधन की अंतिम तिथि :
+<strong>08/09/2026</strong>
+</li>
+
+<li>
+परीक्षा तिथि :
+<strong>आयोग द्वारा बाद में सूचित की जाएगी</strong>
+</li>
+
+</ul>
+
+</th>
+
+
+<th>
+
+<div style="color:#cc0000;font-size:16px;margin-bottom:5px;">
+Application Fee
+</div>
+
+<ul>
+
+<li>
+अनारक्षित (सामान्य) :
+<strong>₹160 + ₹25 = ₹185/-</strong>
+</li>
+
+<li>
+अन्य पिछड़ा वर्ग :
+<strong>₹160 + ₹25 = ₹185/-</strong>
+</li>
+
+<li>
+अनुसूचित जाति :
+<strong>₹70 + ₹25 = ₹95/-</strong>
+</li>
+
+<li>
+अनुसूचित जनजाति :
+<strong>₹70 + ₹25 = ₹95/-</strong>
+</li>
+
+<li>
+दिव्यांगजन :
+<strong>₹0 + ₹25 = ₹25/-</strong>
+</li>
+
+</ul>
+
+<p style="font-weight:normal;margin-top:10px;font-size:13px">
+
+भुगतान Credit Card/Debit Card/Internet Banking/UPI अथवा SBI ई-चालान के माध्यम से किया जा सकता है।
+
+</p>
+
+</th>
+
+</tr>
+
+</table>
+
+
+<!-- Age Limit -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+UPSSSC PET 2026 Age Limit as on 01/07/2026
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+Minimum Age :
+<strong>18 Years</strong>
+</li>
+
+<li>
+Maximum Age :
+<strong>40 Years</strong>
+</li>
+
+<li>
+आयु की गणना
+<strong>01 जुलाई 2026</strong>
+के आधार पर की जाएगी।
+</li>
+
+<li>
+आरक्षित/विशेष श्रेणियों को नियमानुसार आयु में छूट का प्रावधान है।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Educational Qualification -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+UPSSSC PET 2026 : Educational Qualification
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+अभ्यर्थी के पास
+<strong>हाईस्कूल अथवा उसके समकक्ष अर्हता</strong>
+होनी चाहिए।
+</li>
+
+<li>
+आवेदन पत्र जमा करने की अंतिम तिथि से पूर्व हाईस्कूल अथवा समकक्ष परीक्षा उत्तीर्ण होना आवश्यक है।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- Important Note -->
+
+<div class="note">
+
+<strong>महत्वपूर्ण:</strong>
+
+यह विज्ञापन PET-2026 परीक्षा के लिए है। इस नोटिस में किसी एक पद की पोस्ट-वाइज रिक्तियों की संख्या घोषित नहीं की गई है। PET का स्कोर आगे आयोग द्वारा जारी होने वाली संबंधित मुख्य परीक्षाओं/भर्ती विज्ञापनों में उपयोग किया जा सकता है।
+
+</div>
+
+
+<!-- Exam Pattern -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+UPSSSC PET 2026 : Exam Pattern
+</h2>
+
+<table class="exam-pattern-table">
+
+<thead>
+
+<tr>
+
+<th>
+परीक्षा की अवधि
+</th>
+
+<th>
+प्रश्नों की संख्या
+</th>
+
+<th>
+कुल अंक
+</th>
+
+<th>
+Negative Marking
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+<strong>2 घंटे</strong>
+</td>
+
+<td>
+<strong>100</strong>
+</td>
+
+<td>
+<strong>100</strong>
+</td>
+
+<td>
+प्रत्येक गलत उत्तर पर
+<strong>1/4 अंक</strong>
+की कटौती
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- Advertisement -->
+
+<div class="ad-banner">
+Responsive Advertisement Space (AdSense)
+</div>
+
+
+<!-- Other Important Information -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+UPSSSC PET 2026 : Other Important Information
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+ऑनलाइन आवेदन प्रणाली (Online Application System) लागू है; अन्य माध्यम से आवेदन स्वीकार नहीं किया जाएगा।
+</li>
+
+<li>
+आवेदन से पहले OTR (One Time Registration) प्रक्रिया पूरी करना आवश्यक है।
+</li>
+
+<li>
+OTR में दर्ज मोबाइल नंबर/अन्य विवरण संबंधी निर्देशों का पालन करें।
+</li>
+
+<li>
+आवेदन पत्र में संशोधन की सुविधा 10/08/2026 से उपलब्ध होगी और संशोधन की अंतिम तिथि 08/09/2026 है।
+</li>
+
+<li>
+PET-2026 में प्राप्त स्कोर की वैधता अवधि संबंधित शासनादेश के अनुसार
+<strong>03 वर्ष</strong>
+तक प्रभावी होगी।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- FAQ -->
+
+<div class="faq-wrapper">
+
+<h2 class="section-heading">
+UPSSSC PET 2026 : Frequently Asked Questions (FAQ)
+</h2>
+
+
+<!-- FAQ 1 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 क्या है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+UPSSSC PET एक प्रारम्भिक अर्हता परीक्षा है। PET-2026 का स्कोर आयोग द्वारा आगे जारी की जाने वाली संबंधित मुख्य परीक्षाओं/भर्ती विज्ञापनों में उपयोग किया जा सकता है।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 2 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 के लिए न्यूनतम शैक्षिक योग्यता क्या है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+अभ्यर्थी के पास हाईस्कूल अथवा उसके समकक्ष अर्हता होनी चाहिए। आवेदन की अंतिम तिथि से पूर्व संबंधित परीक्षा उत्तीर्ण होना आवश्यक है।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 3 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 के लिए आयु सीमा क्या है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+न्यूनतम आयु 18 वर्ष और अधिकतम आयु 40 वर्ष है। आयु की गणना 01 जुलाई 2026 के आधार पर की जाएगी। आरक्षित/विशेष श्रेणियों को नियमानुसार आयु में छूट मिलेगी।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 4 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 का आवेदन कब शुरू होगा?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+ऑनलाइन पंजीकरण/आवेदन 03 अगस्त 2026 से शुरू होगा और 01 सितंबर 2026 तक किया जा सकेगा।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 5 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 की अंतिम तिथि क्या है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+ऑनलाइन आवेदन एवं शुल्क जमा करने की अंतिम तिथि 01 सितंबर 2026 है। शुल्क समायोजन एवं आवेदन संशोधन की अंतिम तिथि 08 सितंबर 2026 है।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 6 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 में कितने प्रश्न होंगे?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+परीक्षा में कुल 100 प्रश्न होंगे और कुल 100 अंक होंगे।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 7 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 में Negative Marking कितनी है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+प्रत्येक गलत उत्तर पर 1/4 अंक की कटौती की जाएगी।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 8 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 परीक्षा की अवधि कितनी है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+परीक्षा की अवधि 2 घंटे है।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 9 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 में आवेदन करने से पहले OTR जरूरी है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+हाँ। आवेदन से पहले OTR (One Time Registration) प्रक्रिया पूरी करना आवश्यक है।
+
+</div>
+
+</div>
+
+
+<!-- FAQ 10 -->
+
+<div class="faq-item">
+
+<button class="faq-question" type="button">
+
+<span class="faq-question-text">
+UPSSSC PET 2026 की परीक्षा तिथि कब है?
+</span>
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+उपलब्ध विज्ञापन के अनुसार परीक्षा तिथि आयोग द्वारा बाद में सूचित की जाएगी।
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- Important Links -->
+
+<div class="links-wrapper">
+
+<h2 class="links-heading">
+Important Links
+</h2>
+
+<table class="info-table">
+
+
+<tr>
+
+<th>
+Apply Online
+</th>
+
+<td>
+
+<a
+href="https://upsssc.gov.in/"
+target="_blank"
+rel="noopener"
+class="btn-click"
+>
+Click Here
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Download Notification
+</th>
+
+<td>
+
+<a
+href="https://upsssc.gov.in/ViewPdf.aspx?tOQhA8AoFpUkdSk5J2hr0lU0H14+rIaUtQroTArbIsw="
+target="_blank"
+rel="noopener"
+class="btn-outline"
+>
+Click Here
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Download Syllabus
+</th>
+
+<td>
+
+<a
+href="https://upsssc.gov.in/ViewPdf.aspx?tOQhA8AoFpUkdSk5J2hr0lU0H14+rIaUtQroTArbIsw="
+target="_blank"
+rel="noopener"
+class="btn-outline"
+>
+Click Here
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Official Website
+</th>
+
+<td>
+
+<a
+href="https://upsssc.gov.in/"
+target="_blank"
+rel="noopener"
+class="btn-outline"
+>
+UPSSSC Official Site
+</a>
+
+</td>
+
+</tr>
+
+
+</table>
+
+</div>
+
+
+</div>
+</main>
+
+
+<!-- Footer -->
+
+<footer class="footer-area">
+
+<div class="footer-links">
+
+<a href="index.html">Home</a>
+
+<a href="#">About Us</a>
+
+<a href="#">Contact Us</a>
+
+<a href="#">Privacy Policy</a>
+
+<a href="#">Terms & Conditions</a>
+
+<a href="#">Disclaimer</a>
+
+</div>
+
+
+<p class="footer-text">
+
+Disclaimer: Exam Darpan is an independent job and education portal. Information is compiled from official recruitment sources. Always verify the latest details with the official notification before applying.
+
+</p>
+
+
+<p
+class="footer-text"
+style="margin-top:15px"
+>
+
+© 2026 Exam Darpan. All Rights Reserved.
+
+</p>
+
+</footer>
+
+
+<!-- FAQ JavaScript -->
+
+<script>
+
+document.querySelectorAll('.faq-question').forEach(function(button){
+
+  button.addEventListener('click',function(){
+
+    const currentItem = this.parentElement;
+
+    document.querySelectorAll('.faq-item').forEach(function(item){
+
+      if(item !== currentItem){
+
+        item.classList.remove('active');
+
+        const otherIcon =
+          item.querySelector('.faq-icon');
+
+        if(otherIcon){
+          otherIcon.textContent = '+';
+        }
+
+      }
+
+    });
+
+
+    currentItem.classList.toggle('active');
+
+
+    const icon =
+      this.querySelector('.faq-icon');
+
+
+    if(currentItem.classList.contains('active')){
+
+      icon.textContent = '−';
+
+    }else{
+
+      icon.textContent = '+';
+
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
