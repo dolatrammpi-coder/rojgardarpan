@@ -1,0 +1,2323 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>RRB Section Controller CEN 03/2026 Online Form - Exam Darpan</title>
+
+<meta name="description"
+content="RRB Section Controller Recruitment CEN 03/2026 - 119 vacancies, important dates, application fee, age limit, qualification, CBT, CBAT, selection process and official links.">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:#f4f7fb;
+  color:#1e293b;
+  line-height:1.55
+}
+
+/* ================= HEADER ================= */
+
+.header-top{
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  color:#fff;
+  text-align:center;
+  padding:20px 15px
+}
+
+.site-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px
+}
+
+.site-logo{
+  width:48px;
+  height:48px
+}
+
+.header-top h1{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:1px
+}
+
+.header-top p{
+  font-size:13px;
+  color:#94a3b8;
+  letter-spacing:2px
+}
+
+/* ================= NAVIGATION ================= */
+
+.nav-bar{
+  background:#2563eb;
+  color:#fff;
+  padding:12px 15px;
+  font-weight:700;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.nav-button{
+  color:#fff;
+  text-decoration:none;
+  cursor:pointer;
+  border:0;
+  background:transparent;
+  font:inherit;
+  padding:0
+}
+
+.nav-button:hover{
+  color:#dbeafe
+}
+
+/* ================= DRAWER ================= */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:9998;
+  display:none;
+}
+
+.drawer-overlay.show{
+  display:block;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:290px;
+  max-width:86%;
+  height:100vh;
+  background:#fff;
+  z-index:9999;
+  transform:translateX(-100%);
+  transition:transform .25s ease;
+  box-shadow:5px 0 20px rgba(0,0,0,.18);
+  overflow-y:auto;
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  color:#fff;
+  padding:20px 18px;
+}
+
+.drawer-header strong{
+  font-size:19px;
+}
+
+.drawer-header p{
+  font-size:11px;
+  color:#94a3b8;
+  margin-top:3px;
+}
+
+.drawer-close{
+  float:right;
+  border:0;
+  background:transparent;
+  color:#fff;
+  font-size:28px;
+  cursor:pointer;
+  line-height:1;
+}
+
+.drawer-menu{
+  padding:10px 0;
+}
+
+.drawer-menu a{
+  display:block;
+  padding:13px 18px;
+  color:#1e293b;
+  text-decoration:none;
+  font-weight:650;
+  border-bottom:1px solid #e2e8f0;
+}
+
+.drawer-menu a:hover{
+  background:#eff6ff;
+  color:#2563eb;
+}
+
+.drawer-menu .drawer-main{
+  color:#2563eb;
+  font-weight:800;
+}
+
+/* ================= MAIN ================= */
+
+main{
+  max-width:1000px;
+  margin:20px auto;
+  padding:0 10px
+}
+
+/* ================= BREADCRUMB ================= */
+
+.breadcrumbs{
+  font-size:13px;
+  color:#64748b;
+  margin-bottom:15px;
+  font-weight:600
+}
+
+.breadcrumbs a{
+  color:#2563eb;
+  text-decoration:none
+}
+
+.breadcrumbs a:hover{
+  text-decoration:underline
+}
+
+/* ================= POST ================= */
+
+.post-container{
+  background:#fff;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  padding:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.03)
+}
+
+.post-title{
+  font-size:24px;
+  color:#0f172a;
+  margin-bottom:10px;
+  border-bottom:2px solid #2563eb;
+  padding-bottom:10px
+}
+
+.post-meta{
+  font-size:13px;
+  color:#475569;
+  margin-bottom:15px
+}
+
+/* ================= SHORT INFO ================= */
+
+.short-info{
+  background:#f8fafc;
+  padding:12px;
+  border-left:4px solid #2563eb;
+  font-size:14px;
+  margin-bottom:20px
+}
+
+/* ================= NOTICE ================= */
+
+.notice{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  padding:12px;
+  border-radius:6px;
+  margin:15px 0;
+  font-size:13px
+}
+
+/* ================= AD ================= */
+
+.ad-banner{
+  background:#e2e8f0;
+  color:#64748b;
+  text-align:center;
+  padding:20px;
+  margin:15px 0;
+  border:1px dashed #cbd5e1;
+  font-size:12px;
+  border-radius:4px
+}
+
+/* ================= TABLE ================= */
+
+.info-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:25px;
+  font-size:14px
+}
+
+.info-table th,
+.info-table td{
+  border:1px solid #cbd5e1;
+  padding:12px;
+  text-align:left;
+  vertical-align:top
+}
+
+.info-table th{
+  background:#f1f5f9;
+  color:#0f172a;
+  font-weight:700
+}
+
+.info-table ul{
+  padding-left:20px
+}
+
+.info-table li{
+  margin-bottom:5px
+}
+
+/* ================= SECTION ================= */
+
+.table-wrapper{
+  border:1px solid #0f172a;
+  border-radius:4px;
+  margin-bottom:25px;
+  overflow:hidden
+}
+
+.table-wrapper .info-table{
+  margin-bottom:0;
+  border:none
+}
+
+.section-heading{
+  text-align:center;
+  font-size:18px;
+  color:#fff;
+  background:#0f172a;
+  padding:10px;
+  border-radius:4px 4px 0 0
+}
+
+/* ================= IMPORTANT LINKS ================= */
+
+.links-wrapper{
+  border:1px solid #2563eb;
+  border-radius:4px;
+  margin-bottom:25px;
+  overflow:hidden
+}
+
+.links-wrapper .info-table{
+  margin-bottom:0;
+  border:none
+}
+
+.links-heading{
+  text-align:center;
+  font-size:18px;
+  color:#fff;
+  background:#2563eb;
+  padding:10px;
+  border-radius:4px 4px 0 0
+}
+
+.links-wrapper th{
+  width:60%
+}
+
+.links-wrapper td{
+  width:40%;
+  text-align:right
+}
+
+.btn-click{
+  background:#2563eb;
+  color:#fff;
+  padding:8px 16px;
+  text-decoration:none;
+  border-radius:4px;
+  display:inline-block;
+  font-weight:bold;
+  font-size:14px
+}
+
+.btn-click:hover{
+  background:#1d4ed8
+}
+
+/* ================= FAQ ================= */
+
+.faq-wrapper{
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  margin-top:25px;
+  margin-bottom:25px;
+  overflow:hidden;
+  background:#fff
+}
+
+.faq-heading{
+  text-align:center;
+  font-size:18px;
+  color:#fff;
+  background:#0f172a;
+  padding:10px
+}
+
+.faq-item{
+  border-bottom:1px solid #e2e8f0
+}
+
+.faq-item:last-child{
+  border-bottom:none
+}
+
+.faq-question{
+  width:100%;
+  background:#fff;
+  border:0;
+  padding:14px 15px;
+  text-align:left;
+  font-size:15px;
+  font-weight:700;
+  color:#1e293b;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+
+.faq-question:hover{
+  background:#f8fafc
+}
+
+.faq-answer{
+  display:none;
+  padding:0 15px 15px;
+  font-size:14px;
+  color:#475569;
+  background:#fff
+}
+
+.faq-question.active{
+  color:#2563eb
+}
+
+.faq-question span{
+  font-size:18px;
+  color:#2563eb
+}
+
+/* ================= FOOTER ================= */
+
+.footer-area{
+  background:#0f172a;
+  color:#94a3b8;
+  padding:30px 15px;
+  text-align:center;
+  margin-top:40px
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+  margin-bottom:15px
+}
+
+.footer-links a{
+  color:#e2e8f0;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600
+}
+
+.footer-links a:hover{
+  color:#38bdf8;
+  text-decoration:underline
+}
+
+.footer-text{
+  font-size:12px;
+  line-height:1.5;
+  max-width:800px;
+  margin:0 auto;
+  color:#64748b
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  .header-top{
+    padding:10px 12px
+  }
+
+  .site-brand{
+    gap:10px
+  }
+
+  .site-logo{
+    width:42px;
+    height:42px
+  }
+
+  .header-top h1{
+    font-size:21px;
+    letter-spacing:.7px
+  }
+
+  .header-top p{
+    font-size:9px;
+    letter-spacing:1.5px
+  }
+
+  main{
+    width:100%;
+    max-width:1000px;
+    margin:10px auto;
+    padding:0 7px
+  }
+
+  .post-container{
+    padding:12px
+  }
+
+  .post-title{
+    font-size:20px;
+    line-height:1.45
+  }
+
+  .post-meta{
+    font-size:12px
+  }
+
+  .short-info,
+  .notice{
+    font-size:12px
+  }
+
+  .info-table{
+    font-size:12px
+  }
+
+  .info-table th,
+  .info-table td{
+    padding:9px
+  }
+
+  .split-table{
+    display:table;
+    width:100%
+  }
+
+  .split-table tr{
+    display:table-row
+  }
+
+  .split-table th,
+  .split-table td{
+    display:table-cell;
+    width:50%;
+    text-align:left
+  }
+
+  .table-wrapper{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch
+  }
+
+  .table-wrapper .info-table{
+    min-width:100%
+  }
+
+  .faq-question{
+    font-size:14px;
+    padding:13px
+  }
+
+  .faq-answer{
+    font-size:13px
+  }
+
+  .footer-links{
+    gap:10px;
+    flex-direction:column
+  }
+}
+
+@media(max-width:420px){
+
+  .header-top h1{
+    font-size:18px
+  }
+
+  .header-top p{
+    font-size:8px
+  }
+
+  .site-logo{
+    width:38px;
+    height:38px
+  }
+
+  .post-title{
+    font-size:19px
+  }
+
+  .btn-click{
+    font-size:12px;
+    padding:8px 13px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     DRAWER
+========================================================= -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="drawer" id="siteDrawer">
+
+  <div class="drawer-header">
+
+    <button class="drawer-close"
+            id="drawerClose"
+            aria-label="Close Menu">
+      ×
+    </button>
+
+    <strong>EXAM DARPAN</strong>
+
+    <p>Recruitment Navigation</p>
+
+  </div>
+
+  <nav class="drawer-menu">
+
+    <a href="index.html" class="drawer-main">
+      🏠 Home
+    </a>
+
+    <a href="#job-details">
+      📋 Recruitment Details
+    </a>
+
+    <a href="#vacancy">
+      📌 Vacancy &amp; Qualification
+    </a>
+
+    <a href="#selection">
+      🎯 Selection Process
+    </a>
+
+    <a href="#exam-pattern">
+      📝 Exam Pattern
+    </a>
+
+    <a href="#syllabus">
+      📚 Syllabus
+    </a>
+
+    <a href="#important-instructions">
+      ⚠️ Important Instructions
+    </a>
+
+    <a href="#important-links">
+      🔗 Important Links
+    </a>
+
+    <a href="#faq">
+      ❓ FAQ
+    </a>
+
+  </nav>
+
+</aside>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+<div class="header-top">
+
+  <div class="site-brand">
+
+    <svg class="site-logo"
+         viewBox="0 0 54 54"
+         aria-label="Exam Darpan logo"
+         role="img">
+
+      <defs>
+
+        <linearGradient id="logoGradient"
+                        x1="0"
+                        y1="0"
+                        x2="1"
+                        y2="1">
+
+          <stop offset="0"
+                stop-color="#ffffff"/>
+
+          <stop offset="1"
+                stop-color="#dbeafe"/>
+
+        </linearGradient>
+
+      </defs>
+
+      <rect x="1"
+            y="1"
+            width="52"
+            height="52"
+            rx="15"
+            fill="url(#logoGradient)"/>
+
+      <path d="M16 16h22v5H21v6h14v5H21v6h17v5H16z"
+            fill="#2056d9"/>
+
+      <circle cx="42"
+              cy="14"
+              r="4"
+              fill="#fbbf24"/>
+
+    </svg>
+
+    <div>
+
+      <h1>EXAM DARPAN</h1>
+
+      <p>WWW.EXAMDARPAN.COM</p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="nav-bar">
+
+  <button class="nav-button"
+          id="menuOpen"
+          type="button"
+          aria-label="Open Menu">
+
+    ☰ Menu
+
+  </button>
+
+
+  <a class="nav-button"
+     href="index.html">
+
+    🏠 Home
+
+  </a>
+
+</div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main>
+
+<div class="breadcrumbs">
+
+  <a href="index.html">
+    Home
+  </a>
+
+  »
+
+  <a href="index.html">
+    Railway Jobs
+  </a>
+
+  »
+
+  RRB Section Controller CEN 03/2026
+
+</div>
+
+
+<div class="post-container"
+     id="job-details">
+
+
+<h1 class="post-title">
+
+RRB Section Controller CEN 03/2026 Recruitment Online Form
+
+</h1>
+
+
+<div class="post-meta">
+
+<strong>Organization:</strong>
+Railway Recruitment Boards (RRBs), Ministry of Railways
+
+<br>
+
+<strong>Post:</strong>
+Section Controller
+
+<br>
+
+<strong>CEN:</strong>
+03/2026
+
+</div>
+
+
+<div class="short-info">
+
+<strong>Short Information:</strong>
+
+Railway Recruitment Boards ने Centralised Employment Notification
+(CEN) No. 03/2026 के अंतर्गत Section Controller के 119 पदों के लिए
+ऑनलाइन आवेदन आमंत्रित किए हैं। इस भर्ती के लिए न्यूनतम शैक्षिक योग्यता
+Graduate Degree है तथा चयन प्रक्रिया में CBT, CBAT, Document Verification
+और Medical Examination शामिल हैं।
+
+</div>
+
+
+<div class="notice">
+
+<strong>Important:</strong>
+
+उम्मीदवार आवेदन करने से पहले आधिकारिक CEN 03/2026 को ध्यानपूर्वक पढ़ें।
+एक उम्मीदवार केवल एक RRB के लिए एक ही application submit कर सकता है।
+एक से अधिक RRB में आवेदन करने पर applications reject हो सकती हैं।
+
+</div>
+
+
+<div class="ad-banner">
+
+Responsive Advertisement Space (AdSense)
+
+</div>
+
+
+<!-- =========================================================
+     IMPORTANT DATES + FEE
+========================================================= -->
+
+<table class="info-table split-table">
+
+<tr>
+
+<th>
+
+<div style="color:#cc0000;font-size:16px;margin-bottom:5px">
+
+Important Dates
+
+</div>
+
+<ul>
+
+<li>
+Indicative Notice:
+<strong>27/06/2026</strong>
+</li>
+
+<li>
+Application Begin:
+<strong>15/07/2026</strong>
+</li>
+
+<li>
+Last Date:
+<strong style="color:#cc0000">
+14/08/2026
+</strong>
+</li>
+
+<li>
+Last Date for Fee Payment:
+<strong>16/08/2026</strong>
+</li>
+
+<li>
+Modification Window:
+<strong>17/08/2026 to 26/08/2026</strong>
+</li>
+
+<li>
+Scribe Details:
+<strong>27/08/2026 to 31/08/2026</strong>
+</li>
+
+<li>
+CBT / Other Exam Dates:
+<strong>To be notified</strong>
+</li>
+
+</ul>
+
+</th>
+
+
+<th>
+
+<div style="color:#cc0000;font-size:16px;margin-bottom:5px">
+
+Application Fee
+
+</div>
+
+<ul>
+
+<li>
+Other Candidates:
+<strong>₹500/-</strong>
+</li>
+
+<li>
+Female / Transgender / Ex-Servicemen:
+<strong>₹250/-</strong>
+</li>
+
+<li>
+SC / ST / Minority / EBC / PwBD:
+<strong>₹250/-</strong>
+</li>
+
+<li>
+₹400 from ₹500 and ₹250 fee respectively is refundable,
+after applicable bank charges, on appearing in CBT as per notification.
+</li>
+
+<li>
+Payment Mode:
+<strong>Online</strong>
+</li>
+
+</ul>
+
+</th>
+
+</tr>
+
+</table>
+
+
+<!-- =========================================================
+     AGE LIMIT
+========================================================= -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+
+RRB Section Controller 2026 Age Limit
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+Minimum Age:
+<strong>20 Years</strong>
+</li>
+
+<li>
+Maximum Age:
+<strong>33 Years</strong>
+</li>
+
+<li>
+Age Calculation Date:
+<strong>01/07/2026</strong>
+</li>
+
+<li>
+SC/ST/OBC-NCL and other eligible categories को notification
+के अनुसार age relaxation मिलेगी।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     VACANCY
+========================================================= -->
+
+<div class="table-wrapper"
+     id="vacancy">
+
+<h2 class="section-heading">
+
+RRB Section Controller Recruitment 2026 : Vacancy Details
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<th style="text-align:center">
+Post
+</th>
+
+<th style="text-align:center">
+Vacancy
+</th>
+
+<th style="text-align:center">
+Qualification
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+
+<strong>
+Section Controller
+</strong>
+
+<br>
+
+Pay Level 6
+
+<br>
+
+Initial Pay:
+<strong>₹35,400/-</strong>
+
+<br>
+
+Medical Standard:
+<strong>A-2</strong>
+
+</td>
+
+
+<td>
+
+<strong>
+119 Posts
+</strong>
+
+<br><br>
+
+Category-wise total:
+
+<ul>
+
+<li>UR: 50</li>
+
+<li>SC: 19</li>
+
+<li>ST: 12</li>
+
+<li>OBC-NCL: 29</li>
+
+<li>EWS: 9</li>
+
+</ul>
+
+</td>
+
+
+<td>
+
+<ul>
+
+<li>
+Graduate Degree from a recognized University
+or its equivalent.
+</li>
+
+<li>
+Prescribed educational qualification closing date
+तक प्राप्त होना आवश्यक है।
+</li>
+
+<li>
+Final result का इंतजार कर रहे candidates eligible नहीं हैं।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     RRB / ZONE VACANCY SUMMARY
+========================================================= -->
+
+<div class="table-wrapper">
+
+<h2 class="section-heading">
+
+RRB &amp; Zone-wise Vacancy Summary
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<th>RRB</th>
+<th>Zone</th>
+<th>Total</th>
+
+</tr>
+
+<tr>
+<td>Ahmedabad</td>
+<td>WR</td>
+<td><strong>11</strong></td>
+</tr>
+
+<tr>
+<td>Ajmer</td>
+<td>WCR</td>
+<td><strong>1</strong></td>
+</tr>
+
+<tr>
+<td>Prayagraj</td>
+<td>NCR</td>
+<td><strong>2</strong></td>
+</tr>
+
+<tr>
+<td>Prayagraj</td>
+<td>NR</td>
+<td><strong>2</strong></td>
+</tr>
+
+<tr>
+<td>Bengaluru</td>
+<td>SWR</td>
+<td><strong>8</strong></td>
+</tr>
+
+<tr>
+<td>Bhopal</td>
+<td>WCR / WR</td>
+<td><strong>6</strong></td>
+</tr>
+
+<tr>
+<td>Bhubaneswar</td>
+<td>ECR</td>
+<td><strong>6</strong></td>
+</tr>
+
+<tr>
+<td>Bilaspur</td>
+<td>CR / SECR</td>
+<td><strong>4</strong></td>
+</tr>
+
+<tr>
+<td>Chandigarh</td>
+<td>NR</td>
+<td><strong>6</strong></td>
+</tr>
+
+<tr>
+<td>Chennai</td>
+<td>SR</td>
+<td><strong>9</strong></td>
+</tr>
+
+<tr>
+<td>Gorakhpur</td>
+<td>NER</td>
+<td><strong>5</strong></td>
+</tr>
+
+<tr>
+<td>Guwahati</td>
+<td>NFR</td>
+<td><strong>1</strong></td>
+</tr>
+
+<tr>
+<td>Jammu-Srinagar</td>
+<td>NR</td>
+<td><strong>0</strong></td>
+</tr>
+
+<tr>
+<td>Kolkata</td>
+<td>ER / SER</td>
+<td><strong>8</strong></td>
+</tr>
+
+<tr>
+<td>Malda</td>
+<td>ER / SER</td>
+<td><strong>7</strong></td>
+</tr>
+
+<tr>
+<td>Mumbai</td>
+<td>CR / SCR</td>
+<td><strong>6</strong></td>
+</tr>
+
+<tr>
+<td>Muzaffarpur</td>
+<td>ECR</td>
+<td><strong>3</strong></td>
+</tr>
+
+<tr>
+<td>Patna</td>
+<td>ECR</td>
+<td><strong>6</strong></td>
+</tr>
+
+<tr>
+<td>Ranchi</td>
+<td>ECR / SER</td>
+<td><strong>14</strong></td>
+</tr>
+
+<tr>
+<td>Secunderabad</td>
+<td>SCR</td>
+<td><strong>5</strong></td>
+</tr>
+
+<tr>
+<td>Siliguri</td>
+<td>NFR</td>
+<td><strong>5</strong></td>
+</tr>
+
+<tr>
+<td>Thiruvananthapuram</td>
+<td>SR</td>
+<td><strong>4</strong></td>
+</tr>
+
+<tr>
+
+<th colspan="2">
+Total
+</th>
+
+<th>
+119
+</th>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     SELECTION PROCESS
+========================================================= -->
+
+<div class="table-wrapper"
+     id="selection">
+
+<h2 class="section-heading">
+
+RRB Section Controller 2026 Selection Process
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+<strong>Stage 1:</strong>
+Single Stage Computer Based Test (CBT)
+</li>
+
+<li>
+<strong>Stage 2:</strong>
+Computer Based Aptitude Test (CBAT)
+</li>
+
+<li>
+<strong>Stage 3:</strong>
+Document Verification (DV)
+</li>
+
+<li>
+<strong>Stage 4:</strong>
+Medical Examination
+</li>
+
+</ul>
+
+<p style="margin-top:10px">
+
+<strong>Final Merit:</strong>
+
+CBAT qualify करने वाले candidates की combined merit में
+CBT को <strong>70%</strong> और CBAT को <strong>30%</strong> weightage
+दिया जाएगा।
+
+</p>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     EXAM PATTERN
+========================================================= -->
+
+<div class="table-wrapper"
+     id="exam-pattern">
+
+<h2 class="section-heading">
+
+RRB Section Controller 2026 Exam Pattern
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<th>
+Stage
+</th>
+
+<th>
+Details
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>CBT</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>
+Total Questions:
+<strong>100</strong>
+</li>
+
+<li>
+Total Duration:
+<strong>120 Minutes</strong>
+</li>
+
+<li>
+Each Question:
+<strong>1 Mark</strong>
+</li>
+
+<li>
+Negative Marking:
+<strong>1/3 Mark</strong> for each wrong answer
+</li>
+
+<li>
+Multiple shifts में CBT होने पर normalization लागू होगा।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>CBAT</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>
+CBT performance के आधार पर vacancies के लगभग
+<strong>8 times</strong> तक candidates shortlist किए जाएंगे।
+</li>
+
+<li>
+हर test battery में minimum
+<strong>T-Score 42</strong> आवश्यक है।
+</li>
+
+<li>
+CBAT में negative marking नहीं है।
+</li>
+
+<li>
+CBAT के प्रश्न/answers केवल Hindi और English में होंगे।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>Minimum CBT Qualifying Marks</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>UR: <strong>40%</strong></li>
+
+<li>EWS: <strong>40%</strong></li>
+
+<li>OBC-NCL: <strong>30%</strong></li>
+
+<li>SC: <strong>30%</strong></li>
+
+<li>ST: <strong>25%</strong></li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     SYLLABUS
+========================================================= -->
+
+<div class="table-wrapper"
+     id="syllabus">
+
+<h2 class="section-heading">
+
+RRB Section Controller 2026 Syllabus
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<th>
+Subject / Area
+</th>
+
+<th>
+Important Topics
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>Analytical &amp; Mathematical Capability</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>Number System</li>
+
+<li>Ratio &amp; Proportion</li>
+
+<li>Average</li>
+
+<li>Percentage</li>
+
+<li>Profit, Loss &amp; Discount</li>
+
+<li>Time, Speed &amp; Distance</li>
+
+<li>Power &amp; Work</li>
+
+<li>Algebra</li>
+
+<li>Linear Equations</li>
+
+<li>Arithmetic Progression</li>
+
+<li>LCM &amp; HCF</li>
+
+<li>Geometry</li>
+
+<li>Area &amp; Volumes</li>
+
+<li>Probability</li>
+
+<li>Basic Statistics</li>
+
+<li>Data Analysis &amp; Interpretation</li>
+
+<li>Data Sufficiency</li>
+
+<li>Data Arrangement</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>Logical Capability</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>Binary Logic</li>
+
+<li>Syllogism</li>
+
+<li>Clocks &amp; Calendars</li>
+
+<li>Assumptions</li>
+
+<li>Blood Relations</li>
+
+<li>Family Tree</li>
+
+<li>Logic-based Puzzles</li>
+
+<li>Reading Comprehension</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+<strong>Mental Reasoning</strong>
+</td>
+
+<td>
+
+<ul>
+
+<li>Analogy</li>
+
+<li>Series Completion</li>
+
+<li>Coding-Decoding</li>
+
+<li>Ranking</li>
+
+<li>Arrangements</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Indicative Distribution
+</th>
+
+<th>
+
+60 Analytical &amp; Mathematical +
+20 Logical Capability +
+20 Mental Reasoning =
+<strong>100 Questions</strong>
+
+<br><br>
+
+Duration:
+<strong>120 Minutes</strong>
+
+</th>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<div class="notice">
+
+<strong>Syllabus Note:</strong>
+
+Notification में दिए गए topics illustrative हैं और necessarily exhaustive नहीं हैं।
+इसलिए उम्मीदवार को केवल listed topics तक अपनी तैयारी सीमित नहीं रखनी चाहिए।
+
+</div>
+
+
+<div class="ad-banner">
+
+Responsive Advertisement Space (AdSense)
+
+</div>
+
+
+<!-- =========================================================
+     IMPORTANT INSTRUCTIONS
+========================================================= -->
+
+<div class="table-wrapper"
+     id="important-instructions">
+
+<h2 class="section-heading">
+
+Important Instructions
+
+</h2>
+
+<table class="info-table">
+
+<tr>
+
+<td>
+
+<ul>
+
+<li>
+Candidate केवल <strong>एक RRB</strong> चुन सकता है।
+</li>
+
+<li>
+एक से अधिक RRB में application करने पर सभी applications reject हो सकती हैं।
+</li>
+
+<li>
+Chosen RRB बाद में change नहीं किया जा सकता।
+</li>
+
+<li>
+Create Account में भरी गई mobile number और email ID बाद में modify नहीं की जा सकती।
+</li>
+
+<li>
+Application submit करने के बाद सामान्य correction के लिए
+modification window में ₹250 per modification fee लागू होगी।
+</li>
+
+<li>
+Modification window:
+<strong>17/08/2026 से 26/08/2026</strong>
+</li>
+
+<li>
+Candidates को active personal mobile number और email ID रखना चाहिए।
+</li>
+
+<li>
+CBT/CBAT/DV/Medical के लिए original documents और prescribed certificates
+की आवश्यकता हो सकती है।
+</li>
+
+<li>
+CBAT में उपस्थित होने के लिए prescribed vision certificate की आवश्यकता है।
+</li>
+
+<li>
+Section Controller post के लिए prescribed A-2 medical standard लागू है।
+</li>
+
+<li>
+Lasik surgery या refractive error correction के लिए अन्य surgical procedure
+करा चुके candidates Section Controller post के लिए eligible नहीं हैं,
+जैसा कि notification में prescribed है।
+</li>
+
+</ul>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     IMPORTANT LINKS
+========================================================= -->
+
+<div class="links-wrapper"
+     id="important-links">
+
+<h2 class="links-heading">
+
+Important Links
+
+</h2>
+
+<table class="info-table">
+
+
+<tr>
+
+<th>
+Apply Online
+</th>
+
+<td>
+
+<a href="https://www.rrbapply.gov.in/#/auth/landing"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="btn-click">
+
+Apply Now
+
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Download Official Notification
+</th>
+
+<td>
+
+<a href="https://rrbpryj.gov.in/88b59f83-04cb-4373-becd-bac03a1b0a43.pdf"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="btn-click">
+
+Click Here
+
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+Syllabus / Exam Pattern
+</th>
+
+<td>
+
+<a href="https://rrbpryj.gov.in/88b59f83-04cb-4373-becd-bac03a1b0a43.pdf"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="btn-click">
+
+Click Here
+
+</a>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>
+RRB Prayagraj Official Website
+</th>
+
+<td>
+
+<a href="https://rrbpryj.gov.in/"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="btn-click">
+
+Click Here
+
+</a>
+
+</td>
+
+</tr>
+
+
+</table>
+
+</div>
+
+
+<!-- =========================================================
+     FAQ
+========================================================= -->
+
+<div class="faq-wrapper"
+     id="faq">
+
+<h2 class="faq-heading">
+
+Frequently Asked Questions (FAQ)
+
+</h2>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+RRB Section Controller 2026 में कितने पद हैं?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+RRB Section Controller CEN 03/2026 में कुल
+<strong>119 vacancies</strong> हैं।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+RRB Section Controller की आवेदन तिथि क्या है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+Online application 15 July 2026 को शुरू हुआ और
+14 August 2026 को रात 11:59 बजे तक आवेदन किया जा सकता है।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller की Educational Qualification क्या है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+उम्मीदवार के पास recognized University से
+<strong>Graduate Degree या equivalent qualification</strong>
+होनी चाहिए।
+
+Final result का इंतजार कर रहे candidates eligible नहीं हैं।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller की Age Limit क्या है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+Normal age limit <strong>20 से 33 वर्ष</strong> है।
+Age की गणना 01 July 2026 के आधार पर की जाएगी।
+Eligible reserved categories को notification के अनुसार relaxation मिलेगा।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+RRB Section Controller Application Fee कितनी है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+सामान्य candidates के लिए fee <strong>₹500/-</strong> है।
+
+Female, Transgender, Ex-Servicemen तथा SC/ST/Minority/EBC/PwBD
+candidates के लिए prescribed fee <strong>₹250/-</strong> है।
+
+CBT में उपस्थित होने पर notification के अनुसार refund भी लागू है।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller की Selection Process क्या है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+Selection process में:
+
+<br><br>
+
+1. Computer Based Test (CBT)
+
+<br>
+2. Computer Based Aptitude Test (CBAT)
+
+<br>
+3. Document Verification (DV)
+
+<br>
+4. Medical Examination
+
+शामिल हैं।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller CBT में कितने प्रश्न होंगे?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+CBT में कुल <strong>100 questions</strong> होंगे और duration
+<strong>120 minutes</strong> होगी।
+
+गलत उत्तर के लिए प्रत्येक प्रश्न के निर्धारित अंक का
+<strong>1/3</strong> negative marking होगा।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller CBT में कौन-कौन से विषय हैं?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+CBT के मुख्य areas हैं:
+
+<br><br>
+
+<strong>Analytical &amp; Mathematical Capability</strong>
+
+<br>
+
+<strong>Logical Capability</strong>
+
+<br>
+
+<strong>Mental Reasoning</strong>
+
+<br><br>
+
+Indicative distribution 60 + 20 + 20 questions है।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+CBAT में कितने अंक चाहिए?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+CBAT की प्रत्येक test battery में minimum
+<strong>T-Score 42</strong> प्राप्त करना आवश्यक है।
+
+CBAT में negative marking नहीं है और प्रत्येक test battery qualify करना आवश्यक है।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller की final merit कैसे बनेगी?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+CBAT qualify करने वाले candidates की combined merit में
+<strong>CBT को 70%</strong> और <strong>CBAT को 30%</strong>
+weightage दिया जाएगा।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Section Controller का Syllabus कहाँ मिलेगा?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+इस भर्ती का syllabus और exam pattern official CEN 03/2026
+notification में दिया गया है। ऊपर Important Links में
+<strong>Syllabus / Exam Pattern</strong> link उसी official notification
+पर ले जाता है।
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+क्या एक उम्मीदवार एक से अधिक RRB से आवेदन कर सकता है?
+
+<span>+</span>
+
+</button>
+
+<div class="faq-answer">
+
+नहीं। उम्मीदवार केवल एक RRB चुन सकता है।
+एक से अधिक RRB में application करने पर applications reject हो सकती हैं।
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer-area">
+
+<div class="footer-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="about-us.html">
+About Us
+</a>
+
+<a href="contact-us.html">
+Contact Us
+</a>
+
+<a href="privacy-policy.html">
+Privacy Policy
+</a>
+
+<a href="terms-conditions.html">
+Terms &amp; Conditions
+</a>
+
+<a href="disclaimer.html">
+Disclaimer
+</a>
+
+</div>
+
+
+<p class="footer-text">
+
+Disclaimer: Exam Darpan एक independent job और education information
+portal है। Recruitment की अंतिम और आधिकारिक जानकारी के लिए संबंधित
+Railway Recruitment Board की official notification और official website
+को प्राथमिकता दें।
+
+</p>
+
+
+<p class="footer-text"
+   style="margin-top:15px">
+
+© 2026 Exam Darpan. All Rights Reserved.
+
+</p>
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* ================= DRAWER ================= */
+
+const drawer = document.getElementById("siteDrawer");
+const drawerOverlay = document.getElementById("drawerOverlay");
+const menuOpen = document.getElementById("menuOpen");
+const drawerClose = document.getElementById("drawerClose");
+
+function openDrawer(){
+
+  drawer.classList.add("open");
+  drawerOverlay.classList.add("show");
+
+  document.body.style.overflow = "hidden";
+
+}
+
+function closeDrawer(){
+
+  drawer.classList.remove("open");
+  drawerOverlay.classList.remove("show");
+
+  document.body.style.overflow = "";
+
+}
+
+menuOpen.addEventListener("click",function(){
+
+  openDrawer();
+
+});
+
+drawerClose.addEventListener("click",function(){
+
+  closeDrawer();
+
+});
+
+drawerOverlay.addEventListener("click",function(){
+
+  closeDrawer();
+
+});
+
+
+/* Drawer के अंदर section link पर click */
+
+document.querySelectorAll(".drawer-menu a").forEach(function(link){
+
+  link.addEventListener("click",function(){
+
+    closeDrawer();
+
+  });
+
+});
+
+
+/* ESC से drawer बंद */
+
+document.addEventListener("keydown",function(event){
+
+  if(event.key === "Escape"){
+
+    closeDrawer();
+
+  }
+
+});
+
+
+/* ================= FAQ ================= */
+
+document.querySelectorAll(".faq-question").forEach(function(button){
+
+  button.addEventListener("click",function(){
+
+    const answer = this.nextElementSibling;
+    const icon = this.querySelector("span");
+
+    const isOpen =
+      answer.style.display === "block";
+
+
+    document.querySelectorAll(".faq-answer").forEach(function(item){
+
+      item.style.display = "none";
+
+    });
+
+
+    document.querySelectorAll(".faq-question span").forEach(function(item){
+
+      item.textContent = "+";
+
+    });
+
+
+    document.querySelectorAll(".faq-question").forEach(function(item){
+
+      item.classList.remove("active");
+
+    });
+
+
+    if(!isOpen){
+
+      answer.style.display = "block";
+
+      icon.textContent = "−";
+
+      this.classList.add("active");
+
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
