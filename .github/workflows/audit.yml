@@ -1,7 +1,8 @@
-name: Live Website Link Audit
+name: Live SEO and Canonical Audit
 
 on:
   workflow_dispatch:
+
   schedule:
     - cron: "0 0 * * 0"
 
@@ -9,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  run-audit:
+  seo-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -24,27 +25,29 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run Live Audit Script
-        run: python audit.py
+      - name: Run Live SEO Audit
+        run: |
+          python live_seo_audit.py \
+            https://dolatrammpi-coder.github.io/Quiz/
 
-      - name: Upload Live Audit Reports
+      - name: Upload SEO Reports
         uses: actions/upload-artifact@v4
         with:
-          name: live-website-audit-reports
-          path: live_audit_reports/
+          name: live-seo-audit-reports
+          path: live_seo_reports/
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 30
 
-      - name: Commit and Push Audit Reports
+      - name: Commit and Push SEO Reports
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          git add live_audit_reports/
+          git add live_seo_reports/
 
           if git diff --cached --quiet; then
-            echo "No report changes to commit."
+            echo "No SEO report changes to commit."
           else
-            git commit -m "Update live website audit reports"
+            git commit -m "Update live SEO audit reports"
             git push origin main
           fi
