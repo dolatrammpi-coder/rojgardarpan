@@ -1,0 +1,19 @@
+Website: https://dolatrammpi-coder.github.io/Quiz/
+Pages in sitemap: 1086
+Pages scanned: 1086
+Links discovered: 10525
+Unique URLs checked: 1089
+
+LINK RESULTS:
+CLIENT_ERROR: 5
+OK: 10520
+
+PAGE RESULTS:
+OK: 1086
+
+Broken candidates: 5
+Redirects: 0
+
+Important: 403, 429 and network errors may be caused by bot blocking.
+A 200 response confirms availability, not correct page content.
+Pages absent from the sitemap may not be included.
