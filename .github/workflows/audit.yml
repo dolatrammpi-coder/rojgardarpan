@@ -27,7 +27,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add *.csv
+          git add live_audit_reports/
+                - name: Upload Live Audit Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-website-audit-reports
+          path: live_audit_reports/
+          if-no-files-found: error
+          retention-days: 7
           # Agar links me koi badlav nahi hoga toh error nahi aayegi
           git commit -m "Auto-generated: Broken links report" || echo "No changes to commit"
           git push
