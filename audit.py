@@ -1,141 +1,77 @@
-import urllib.request, urllib.error
-from html.parser import HTMLParser
-from urllib.parse import urljoin, urlsplit, urldefrag
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from collections import deque
-import csv, os, time, datetime
-
-START = "https://dolatrammpi-coder.github.io/Quiz/index.html"
-PREFIX = "/Quiz/"
-HOST = urlsplit(START).netloc
-
-# GitHub Actions me current directory me save karne ke liye relative path
-REPORT = f"live_broken_links_{datetime.date.today().strftime('%Y%m%d')}.csv"
-
-TIMEOUT = 15
-MAX_PAGES = 2000
-
-class Parser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.base = None
-        self.refs = []
+#!/usr/bin/env python3
+# Live URL auditor for the Quiz GitHub Pages site.                               # Standard-library only; follows redirects and records final URL/status.
+import csv                                                                       import re
+import time                                                                      import ssl
+import html                                                                      import urllib.request
+import urllib.error                                                              import urllib.parse
+import xml.etree.ElementTree as ET                                               from collections import deque
+from html.parser import HTMLParser                                               from pathlib import Path
+                                                                                 SITE = "https://dolatrammpi-coder.github.io/Quiz/"
+HOST = "dolatrammpi-coder.github.io"                                             PREFIX = "/Quiz/"
+OUT = Path.home() / "Quiz" / "live_url_audit.csv"                                TIMEOUT = 18
+DELAY = 0.12                                                                     MAX_PAGES = 10000
+UA = "Mozilla/5.0 (Linux; Android 16) AppleWebKit/537.36 Chrome/131 Mobile Safari/537.36 QuizLiveURLAudit/1.0"
+SKIP_SCHEMES = {"mailto", "tel", "javascript", "data", "blob", "sms", "intent"}  
+class LinkParser(HTMLParser):                                                        def __init__(self):
+        super().__init__(convert_charrefs=True)                                          self.base_href = None
+        self.links = []
     def handle_starttag(self, tag, attrs):
-        a = dict(attrs)
-        if tag == "base" and a.get("href") and self.base is None:
-            self.base = a["href"]
-        for key in ("href", "src", "action"):
-            val = a.get(key)
-            if val:
-                self.refs.append((tag, key, val))
-
-def fetch(url):
-    req = urllib.request.Request(
-        url, headers={"User-Agent": "Mozilla/5.0 (compatible; SiteLinkAudit/1.0)"}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-            data = r.read(2_000_000)
-            return r.status, r.geturl(), r.headers.get("Content-Type", ""), data, ""
-    except urllib.error.HTTPError as e:
-        return e.code, e.geturl(), "", b"", str(e)
+        a = dict(attrs)                                                                  if tag.lower() == "base" and a.get("href") and self.base_href is None:
+            self.base_href = a["href"]
+        for attr in ("href", "src", "action", "poster", "data-src"):
+            val = a.get(attr)                                                                if val:
+                self.links.append((tag.lower(), attr, val.strip()))
+        srcset = a.get("srcset")
+        if srcset:                                                                           for part in srcset.split(","):
+                candidate = part.strip().split()
+                if candidate:
+                    self.links.append((tag.lower(), "srcset", candidate[0]))                                                                                      def clean_url(raw, base):                                                            raw = html.unescape((raw or "").strip())
+    if not raw or raw.startswith("#"):                                                   return None                                                                  try:                                                                                 u = urllib.parse.urljoin(base, raw)                                              p = urllib.parse.urlsplit(u)                                                     if p.scheme.lower() in SKIP_SCHEMES or p.scheme.lower() not in ("http", "https"):                                                                                     return None                                                                  # Remove fragments; retain query because it can change the response.             return urllib.parse.urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path or "/", p.query, ""))                                                              except Exception:                                                                    return None                                                                                                                                               def in_scope(url):
+    p = urllib.parse.urlsplit(url)                                                   return p.hostname == HOST and (p.path == PREFIX.rstrip("/") or p.path.startswith(PREFIX))                                                                                                                                                      def fetch(url):                                                                      req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})                                                                                    try:                                                                                 with urllib.request.urlopen(req, timeout=TIMEOUT, context=ssl.create_default_context()) as r:                                                                         data = r.read(2_500_000)                                                         ctype = r.headers.get("Content-Type", "")                                        return r.status, r.geturl(), ctype, data, ""
+    except urllib.error.HTTPError as e:                                                  try:
+            data = e.read(2000)                                                          except Exception:
+            data = b""                                                                   return e.code, e.geturl() or url, e.headers.get("Content-Type", "") if e.headers else "", data, str(e)
     except Exception as e:
-        return 0, url, "", b"", str(e)
-
-def norm(url):
-    return urldefrag(url)[0]
-
-def internal_page(url):
-    p = urlsplit(url)
-    return p.scheme in ("http", "https") and p.netloc == HOST and p.path.startswith(PREFIX)
-
-queue = deque([START])
-seen_pages = set()
-page_status = {}
-targets = {}
-found_on = {}
-skipped = 0
-
-print("Live website crawl shuru...")
-while queue and len(seen_pages) < MAX_PAGES:
-    page = norm(queue.popleft())
-    if page in seen_pages:
-        continue
-    seen_pages.add(page)
-    status, final_url, ctype, data, err = fetch(page)
-    page_status[page] = (status, final_url, err)
-    if not status or "html" not in ctype.lower():
-        print(f"[PAGE {status or 'ERROR'}] {page}")
-        continue
-    parser = Parser()
-    try:
-        parser.feed(data.decode("utf-8", errors="replace"))
-    except Exception:
-        pass
-    effective_base = urljoin(final_url, parser.base) if parser.base else final_url
-    for tag, attr, raw in parser.refs:
-        raw = raw.strip()
-        if not raw or raw.startswith("#") or raw.lower().startswith(
-            ("mailto:", "tel:", "javascript:", "data:", "blob:")
-        ):
-            continue
-        target = norm(urljoin(effective_base, raw))
-        if urlsplit(target).scheme not in ("http", "https"):
-            continue
-        targets.setdefault(target, (tag, attr))
-        found_on.setdefault(target, set()).add(page)
-        if internal_page(target) and target not in seen_pages:
-            queue.append(target)
-    print(f"[PAGE {status}] {page}")
-
-print(f"\nPages crawled: {len(seen_pages)}")
-print(f"Unique URLs discovered: {len(targets)}")
-print("Ab links/assets ki live status checking...")
-
-def check(url):
-    if url in page_status:
-        s, final, err = page_status[url]
-        return url, s, final, err
-    status, final, ctype, data, err = fetch(url)
-    if status in (403, 405, 501):
-        req = urllib.request.Request(
-            url, headers={"User-Agent": "Mozilla/5.0"}, method="GET"
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-                return url, r.status, r.geturl(), ""
-        except urllib.error.HTTPError as e:
-            return url, e.code, e.geturl(), str(e)
-        except Exception as e:
-            return url, 0, url, str(e)
-    return url, status, final, err
-
-results = []
-with ThreadPoolExecutor(max_workers=8) as pool:
-    futures = [pool.submit(check, u) for u in targets]
-    for i, f in enumerate(as_completed(futures), 1):
-        results.append(f.result())
-        if i % 100 == 0:
-            print(f"Checked {i}/{len(futures)}")
-
-results.sort(key=lambda x: (x[1] == 200, x[0]))
-with open(REPORT, "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow(["status", "url", "tag", "attribute", "found_on", "details"])
-    for url, status, final, err in results:
-        tag, attr = targets[url]
-        if status not in (200, 301, 302, 303, 307, 308):
-            sources = " ; ".join(sorted(found_on.get(url, [])))
-            w.writerow([status or "NETWORK_ERROR", url, tag, attr, sources, err or final])
-
-bad = [r for r in results if r[1] == 0 or r[1] >= 400]
-redirects = [r for r in results if r[1] in (301, 302, 303, 307, 308)]
-
-print("\n========== LIVE LINK AUDIT ==========")
-print("Pages crawled:", len(seen_pages))
-print("Unique URLs checked:", len(results))
-print("HTTP 4xx/5xx or network errors:", len(bad))
-print("Redirect responses:", len(redirects))
-print("CSV report:", REPORT)
-print("Note: 403/429, timeouts, and external anti-bot blocks may need manual verification.")
-print("Audit complete.")
+        return "", url, "", b"", f"{type(e).__name__}: {e}"                      
+def status_class(code, err):                                                         if err:
+        if "timed out" in err.lower() or "timeout" in err.lower():                           return "TIMEOUT_OR_NETWORK"
+        return "NETWORK_ERROR"                                                       try:
+        n = int(code)                                                                except Exception:                                                                    return "UNKNOWN"
+    if 200 <= n < 300:                                                                   return "OK"                                                                  if 300 <= n < 400:                                                                   return "REDIRECT_OR_REDIRECT_TARGET"
+    if n == 404 or n == 410:                                                             return "BROKEN_CONFIRMED"                                                    if n in (401, 403, 429):                                                             return "MANUAL_CHECK_BLOCKED"
+    if n >= 500:                                                                         return "MANUAL_CHECK_SERVER_ERROR"                                           if n >= 400:                                                                         return "HTTP_ERROR"
+    return "UNKNOWN"                                                                                                                                              def main():                                                                          print("Quiz live URL audit starting...")
+    print("Site:", SITE)                                                             sitemap_urls = [                                                                     urllib.parse.urljoin(SITE, "sitemap.xml"),                                       urllib.parse.urljoin(SITE, "sitemap_index.xml"),
+    ]                                                                                queue = deque()                                                                  queued = set()                                                                   checked = {}
+    rows = []                                                                        page_sources = {}                                                                def enqueue(url, source, kind):                                                      if not url or not in_scope(url):
+            return                                                                       if url not in queued:                                                                queued.add(url)                                                                  queue.append((url, source, kind))
+    for u in sitemap_urls:                                                               enqueue(u, "START", "sitemap")                                               enqueue(urllib.parse.urljoin(SITE, "robots.txt"), "START", "robots")             enqueue(urllib.parse.urljoin(SITE, "index.html"), "START", "page")
+    link_seen = set()                                                                                                                                                 while queue and len(checked) < MAX_PAGES:                                            url, source, kind = queue.popleft()
+        if url in checked:                                                                   continue                                                                     code, final_url, ctype, body, err = fetch(url)                                   cls = status_class(code, err)
+        checked[url] = (code, final_url, ctype, err, cls)                                print(f"[{len(checked)}] {code or 'ERR'} {cls} {url}")                           rows.append({                                                                        "requested_url": url, "final_url": final_url, "http_status": code,
+            "result": cls, "content_type": ctype, "discovered_from": source,                 "link_type": kind, "error": err, "redirected": "YES" if final_url != url else "NO"                                                                            })
+        time.sleep(DELAY)                                                                if err or not isinstance(code, int) or not (200 <= code < 300):                      continue                                                                     p = urllib.parse.urlsplit(final_url)
+        path_lower = p.path.lower()                                                      if "xml" in ctype.lower() or path_lower.endswith(".xml"):                            try:                                                                                 root = ET.fromstring(body)
+                for loc in root.iter():                                                              if loc.tag.split("}")[-1].lower() == "loc" and loc.text:                             target = clean_url(loc.text, final_url)                                          if target and in_scope(target):
+                            enqueue(target, final_url, "sitemap_url")                        except Exception:                                                                    pass                                                                         continue
+        if path_lower.endswith("/robots.txt") or path_lower.endswith("robots.txt"):                                                                                           text_body = body.decode("utf-8", "replace")                                      for sm in re.findall(r"(?im)^\s*Sitemap:\s*(\S+)", text_body):
+                target = clean_url(sm, final_url)                                                if target and in_scope(target):                                                      enqueue(target, final_url, "sitemap")                                    continue
+        if "html" not in ctype.lower() and not path_lower.endswith((".html", ".htm", "/")):                                                                                   continue                                                                     parser = LinkParser()
+        try:                                                                                 parser.feed(body.decode("utf-8", "replace"))                                 except Exception:                                                                    continue
+        base = clean_url(parser.base_href, final_url) if parser.base_href else final_url                                                                                  if not base:                                                                         base = final_url
+        for tag, attr, raw in parser.links:
+            target = clean_url(raw, base)                                                    if not target or not in_scope(target):
+                continue                                                                     key = (target, final_url, tag, attr, raw)
+            if key not in link_seen:                                                             link_seen.add(key)
+                page_sources.setdefault(target, final_url)                                       enqueue(target, final_url, f"{tag}.{attr}")
+    # Report unique requested URLs with source and actual HTTP resolution.           OUT.parent.mkdir(parents=True, exist_ok=True)
+    fields = ["requested_url", "final_url", "http_status", "result", "content_type", "discovered_from", "link_type", "error", "redirected"]
+    with OUT.open("w", newline="", encoding="utf-8-sig") as f:                           w = csv.DictWriter(f, fieldnames=fields)
+        w.writeheader()                                                                  w.writerows(rows)
+    counts = {}                                                                      for r in rows:
+        counts[r["result"]] = counts.get(r["result"], 0) + 1                         print("\n========== AUDIT SUMMARY ==========")
+    print("Unique live URLs checked:", len(rows))                                    for k in sorted(counts):
+        print(f"{k}: {counts[k]}")                                                   print("CSV report:", OUT)
+    print("Note: 403/429, timeouts, network errors and 5xx are NOT automatically called broken; manually verify them.")
+    print("This audit checks reachable same-site URLs under /Quiz/ and follows actual HTTP redirects.")
+                                                                                 if __name__ == "__main__":
