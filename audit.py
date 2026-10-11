@@ -1,254 +1,332 @@
 #!/usr/bin/env python3
-import csv
-import time
-import html
-import ssl
-import urllib.request
-import urllib.error
-import urllib.parse
-import xml.etree.ElementTree as ET
-from collections import deque
-from html.parser import HTMLParser
-from pathlib import Path
+"""Fast read-only live website link audit. Python standard library only."""
 
-SITE = "https://dolatrammpi-coder.github.io/Quiz/"
-HOST = "dolatrammpi-coder.github.io"
-PREFIX = "/Quiz/"
-OUT = Path.home() / "Quiz" / "live_url_audit.csv"
-TIMEOUT = 18
-DELAY = 0.12
-MAX_PAGES = 10000
+import csv
+import re
+import sys
+import time
+import argparse
+import threading
+from pathlib import Path
+from queue import Queue
+from collections import Counter
+from html.parser import HTMLParser
+from urllib.parse import urljoin, urlparse, urldefrag
+from urllib.request import Request, urlopen
+from urllib.error import HTTPError
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; WebsiteLinkAudit/1.0)"}
+TIMEOUT = 12
+WORKERS = 16
+CACHE = {}
+CACHE_LOCK = threading.Lock()
+
 
 class Parser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.base = None
         self.links = []
+        self.current = None
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == "base" and a.get("href") and self.base is None:
-            self.base = a["href"]
+        if tag == "base" and self.base is None:
+            self.base = a.get("href")
+        if tag in ("a", "area") and a.get("href"):
+            self.current = {"href": a["href"], "text": ""}
+            self.links.append(self.current)
 
-        for attr in ("href", "src", "action", "poster", "data-src"):
-            if a.get(attr):
-                self.links.append((tag, attr, a[attr]))
+    def handle_data(self, data):
+        if self.current is not None:
+            self.current["text"] += data
 
-        if a.get("srcset"):
-            for item in a["srcset"].split(","):
-                parts = item.strip().split()
-                if parts:
-                    self.links.append((tag, "srcset", parts[0]))
-
-
-def normalize(raw, base):
-    raw = html.unescape((raw or "").strip())
-    if not raw or raw.startswith("#"):
-        return None
-
-    try:
-        url = urllib.parse.urljoin(base, raw)
-        p = urllib.parse.urlsplit(url)
-
-        if p.scheme.lower() not in ("http", "https"):
-            return None
-
-        return urllib.parse.urlunsplit((
-            p.scheme.lower(),
-            p.netloc.lower(),
-            p.path or "/",
-            p.query,
-            ""
-        ))
-    except Exception:
-        return None
-
-
-def in_scope(url):
-    p = urllib.parse.urlsplit(url)
-    return (
-        p.hostname == HOST
-        and (
-            p.path == PREFIX.rstrip("/")
-            or p.path.startswith(PREFIX)
-        )
-    )
+    def handle_endtag(self, tag):
+        if tag in ("a", "area"):
+            self.current = None
 
 
 def fetch(url):
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 QuizLiveURLAudit/1.0"
-        }
-    )
-
     try:
-        with urllib.request.urlopen(
-            request,
-            timeout=TIMEOUT,
-            context=ssl.create_default_context()
-        ) as response:
-            body = response.read(2500000)
-            return (
-                response.status,
-                response.geturl(),
-                response.headers.get("Content-Type", ""),
-                body,
-                ""
-            )
+        req = Request(url, headers=HEADERS)
+        with urlopen(req, timeout=TIMEOUT) as r:
+            data = r.read()
+            return r.status, r.geturl(), data, ""
+    except HTTPError as e:
+        return e.code, e.geturl(), b"", str(e)
+    except Exception as e:
+        return "ERROR", url, b"", str(e)
 
-    except urllib.error.HTTPError as e:
-        return (
-            e.code,
-            e.geturl() or url,
-            e.headers.get("Content-Type", "") if e.headers else "",
-            b"",
-            ""
+
+def check_url(url):
+    url = urldefrag(url)[0]
+
+    with CACHE_LOCK:
+        if url in CACHE:
+            return CACHE[url]
+
+    status, final_url, _, error = fetch(url)
+    result = classify(status)
+
+    answer = {
+        "status": status,
+        "final_url": final_url,
+        "result": result,
+        "error": error,
+    }
+
+    with CACHE_LOCK:
+        CACHE[url] = answer
+
+    return answer
+
+
+def classify(status):
+    if status == 200:
+        return "OK"
+    if isinstance(status, int):
+        if 300 <= status < 400:
+            return "REDIRECT"
+        if 400 <= status < 500:
+            return "CLIENT_ERROR"
+        if status >= 500:
+            return "SERVER_ERROR"
+    return "NETWORK_ERROR"
+
+
+def get_sitemap(site):
+    sitemap = urljoin(site, "sitemap.xml")
+    status, _, body, error = fetch(sitemap)
+
+    if not isinstance(status, int) or status >= 400:
+        raise RuntimeError(
+            f"Sitemap unavailable: {sitemap} ({status}: {error})"
         )
 
-    except Exception as e:
-        return "", url, "", b"", str(e)
+    urls = re.findall(
+        rb"<loc>\s*(.*?)\s*</loc>", body, flags=re.I | re.S
+    )
+    return list(dict.fromkeys(
+        x.decode("utf-8", "replace").strip() for x in urls
+    ))
 
 
-def classify(status, error):
-    if error:
-        if "timeout" in error.lower():
-            return "TIMEOUT_OR_NETWORK"
-        return "NETWORK_ERROR"
+def inspect_page(page, site_host):
+    status, final_url, body, error = fetch(page)
 
-    try:
-        code = int(status)
-    except Exception:
-        return "UNKNOWN"
+    page_row = {
+        "page": page,
+        "status": status,
+        "final_url": final_url,
+        "result": classify(status),
+        "error": error,
+    }
 
-    if 200 <= code < 300:
-        return "OK"
-    if code in (404, 410):
-        return "BROKEN_CONFIRMED"
-    if code in (401, 403, 429):
-        return "MANUAL_CHECK_BLOCKED"
-    if code >= 500:
-        return "MANUAL_CHECK_SERVER_ERROR"
-    if code >= 400:
-        return "HTTP_ERROR"
-    return "OTHER"
+    if not isinstance(status, int) or status >= 400 or not body:
+        return page_row, []
 
+    parser = Parser()
+    parser.feed(body.decode("utf-8", "replace"))
 
-def main():
-    queue = deque()
-    queued = set()
+    base = urljoin(final_url, parser.base) if parser.base else final_url
     rows = []
 
-    def add(url, source, kind):
-        if url and in_scope(url) and url not in queued:
-            queued.add(url)
-            queue.append((url, source, kind))
+    for link in parser.links:
+        href = link["href"].strip()
 
-    add(SITE + "sitemap.xml", "START", "sitemap")
-    add(SITE + "sitemap_index.xml", "START", "sitemap")
-    add(SITE + "robots.txt", "START", "robots")
-    add(SITE + "index.html", "START", "page")
-
-    while queue and len(rows) < MAX_PAGES:
-        url, source, kind = queue.popleft()
-
-        status, final_url, ctype, body, error = fetch(url)
-        result = classify(status, error)
-
-        print(f"[{len(rows)+1}] {status or 'ERR'} {result} {url}")
-
-        rows.append({
-            "requested_url": url,
-            "final_url": final_url,
-            "http_status": status,
-            "result": result,
-            "content_type": ctype,
-            "discovered_from": source,
-            "link_type": kind,
-            "error": error,
-            "redirected": "YES" if final_url != url else "NO"
-        })
-
-        time.sleep(DELAY)
-
-        if error or not isinstance(status, int):
-            continue
-
-        if not 200 <= status < 300:
-            continue
-
-        path = urllib.parse.urlsplit(final_url).path.lower()
-
-        if "xml" in ctype.lower() or path.endswith(".xml"):
-            try:
-                root = ET.fromstring(body)
-                for node in root.iter():
-                    if node.tag.split("}")[-1].lower() == "loc":
-                        target = normalize(node.text, final_url)
-                        add(target, final_url, "sitemap_url")
-            except Exception:
-                pass
-            continue
-
-        if path.endswith("robots.txt"):
-            text = body.decode("utf-8", "replace")
-            for line in text.splitlines():
-                if line.lower().startswith("sitemap:"):
-                    target = normalize(line.split(":", 1)[1], final_url)
-                    add(target, final_url, "sitemap")
-            continue
-
-        if "html" not in ctype.lower() and not path.endswith(
-            (".html", ".htm", "/")
+        if not href or href.startswith(
+            ("#", "javascript:", "mailto:", "tel:", "data:")
         ):
             continue
 
-        parser = Parser()
-        try:
-            parser.feed(body.decode("utf-8", "replace"))
-        except Exception:
+        target = urldefrag(urljoin(base, href))[0]
+        parsed = urlparse(target)
+
+        if parsed.scheme not in ("http", "https"):
             continue
 
-        base = normalize(parser.base, final_url) if parser.base else final_url
-        if not base:
-            base = final_url
+        rows.append({
+            "source_page": page,
+            "link_text": " ".join(link["text"].split())[:200],
+            "raw_href": href,
+            "target_url": target,
+            "same_site": parsed.netloc.lower() == site_host,
+        })
 
-        for tag, attr, raw in parser.links:
-            target = normalize(raw, base)
-            add(target, final_url, f"{tag}.{attr}")
+    return page_row, rows
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
 
-    fields = [
-        "requested_url",
-        "final_url",
-        "http_status",
-        "result",
-        "content_type",
-        "discovered_from",
-        "link_type",
-        "error",
-        "redirected"
-    ]
-
-    with OUT.open("w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=fields)
+def write_csv(path, rows, columns):
+    with path.open("w", newline="", encoding="utf-8-sig") as f:
+        writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
-    print("\n========== AUDIT SUMMARY ==========")
-    print("URLs checked:", len(rows))
 
-    counts = {}
-    for row in rows:
-        counts[row["result"]] = counts.get(row["result"], 0) + 1
+def main():
+    ap = argparse.ArgumentParser(
+        description="Audit live website links and save CSV reports."
+    )
+    ap.add_argument(
+        "url",
+        nargs="?",
+        default="https://dolatrammpi-coder.github.io/Quiz/",
+        help="Website root URL",
+    )
+    ap.add_argument("--workers", type=int, default=WORKERS)
+    args = ap.parse_args()
 
-    for result, count in sorted(counts.items()):
-        print(f"{result}: {count}")
+    site = args.url.rstrip("/") + "/"
+    site_host = urlparse(site).netloc.lower()
+    output = Path("live_audit_reports")
+    output.mkdir(parents=True, exist_ok=True)
 
-    print("CSV report:", OUT)
-    print("Audit complete.")
+    print("Website:", site)
+    print("Reading sitemap...")
+    pages = get_sitemap(site)
+
+    # Keep pages belonging to the requested site.
+    pages = [
+        p for p in pages
+        if urlparse(p).netloc.lower() == site_host
+    ]
+
+    if not pages:
+        print("No site pages found in sitemap.")
+        sys.exit(1)
+
+    print(f"Pages found: {len(pages)}")
+    print("Checking pages concurrently...")
+
+    page_rows = []
+    link_rows = []
+
+    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+        futures = {
+            pool.submit(inspect_page, page, site_host): page
+            for page in pages
+        }
+
+        for i, future in enumerate(as_completed(futures), 1):
+            try:
+                page_row, links = future.result()
+                page_rows.append(page_row)
+                link_rows.extend(links)
+            except Exception as e:
+                page_rows.append({
+                    "page": futures[future],
+                    "status": "ERROR",
+                    "final_url": "",
+                    "result": "NETWORK_ERROR",
+                    "error": str(e),
+                })
+
+            if i % 25 == 0 or i == len(futures):
+                print(f"Pages scanned: {i}/{len(futures)}")
+
+    print(f"Links discovered: {len(link_rows)}")
+    print("Checking unique link targets...")
+
+    unique_targets = list(dict.fromkeys(
+        row["target_url"] for row in link_rows
+    ))
+
+    results = {}
+    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+        futures = {
+            pool.submit(check_url, target): target
+            for target in unique_targets
+        }
+
+        for i, future in enumerate(as_completed(futures), 1):
+            target = futures[future]
+            try:
+                results[target] = future.result()
+            except Exception as e:
+                results[target] = {
+                    "status": "ERROR",
+                    "final_url": target,
+                    "result": "NETWORK_ERROR",
+                    "error": str(e),
+                }
+
+            if i % 50 == 0 or i == len(futures):
+                print(f"Targets checked: {i}/{len(futures)}")
+
+    for row in link_rows:
+        info = results[row["target_url"]]
+        row.update(info)
+        row["broken_candidate"] = info["result"] in (
+            "CLIENT_ERROR", "SERVER_ERROR", "NETWORK_ERROR"
+        )
+
+    # A separate CSV for links that need attention.
+    broken = [r for r in link_rows if r["broken_candidate"]]
+    redirects = [r for r in link_rows if r["result"] == "REDIRECT"]
+
+    write_csv(
+        output / "page_status.csv",
+        page_rows,
+        ["page", "status", "final_url", "result", "error"],
+    )
+    write_csv(
+        output / "all_links.csv",
+        link_rows,
+        [
+            "source_page", "link_text", "raw_href", "target_url",
+            "same_site", "status", "final_url", "result", "error",
+            "broken_candidate",
+        ],
+    )
+    write_csv(
+        output / "broken_links.csv",
+        broken,
+        [
+            "source_page", "link_text", "raw_href", "target_url",
+            "status", "final_url", "result", "error",
+        ],
+    )
+    write_csv(
+        output / "redirects.csv",
+        redirects,
+        [
+            "source_page", "link_text", "raw_href", "target_url",
+            "status", "final_url", "result", "error",
+        ],
+    )
+
+    counts = Counter(r["result"] for r in link_rows)
+    page_counts = Counter(r["result"] for r in page_rows)
+
+    summary = [
+        f"Website: {site}",
+        f"Pages in sitemap: {len(pages)}",
+        f"Pages scanned: {len(page_rows)}",
+        f"Links discovered: {len(link_rows)}",
+        f"Unique URLs checked: {len(unique_targets)}",
+        "",
+        "LINK RESULTS:",
+    ]
+    summary.extend(f"{k}: {v}" for k, v in sorted(counts.items()))
+    summary += ["", "PAGE RESULTS:"]
+    summary.extend(f"{k}: {v}" for k, v in sorted(page_counts.items()))
+    summary += [
+        "",
+        f"Broken candidates: {len(broken)}",
+        f"Redirects: {len(redirects)}",
+        "",
+        "Important: 403, 429 and network errors may be caused by bot blocking.",
+        "A 200 response confirms availability, not correct page content.",
+        "Pages absent from the sitemap may not be included.",
+    ]
+
+    (output / "summary.txt").write_text(
+        "\n".join(summary) + "\n", encoding="utf-8"
+    )
+
+    print("\n".join(summary))
+    print("\nReports saved in:", output.resolve())
 
 
 if __name__ == "__main__":
