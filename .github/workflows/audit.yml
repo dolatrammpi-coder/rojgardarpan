@@ -1,0 +1,33 @@
+name: Live Link Audit
+
+on:
+  workflow_dispatch: # Isse aap manually GitHub se button daba kar script chala payenge
+  schedule:
+    - cron: '0 0 * * 0' # (Optional) Har Sunday raat 12 baje automatic chalane ke liye
+
+permissions:
+  contents: write # CSV file ko repo me wapas save karne ki permission
+
+jobs:
+  run-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Audit Script
+        run: python audit.py
+
+      - name: Commit and Push CSV Report
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add *.csv
+          # Agar links me koi badlav nahi hoga toh error nahi aayegi
+          git commit -m "Auto-generated: Broken links report" || echo "No changes to commit"
+          git push
