@@ -1,40 +1,50 @@
-name: Live Link Audit
+name: Live Website Link Audit
 
 on:
-  workflow_dispatch: # Isse aap manually GitHub se button daba kar script chala payenge
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0' # (Optional) Har Sunday raat 12 baje automatic chalane ke liye
+    - cron: "0 0 * * 0"
 
 permissions:
-  contents: write # CSV file ko repo me wapas save karne ki permission
+  contents: write
 
 jobs:
   run-audit:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.12"
 
-      - name: Run Audit Script
+      - name: Run Live Audit Script
         run: python audit.py
 
-      - name: Commit and Push CSV Report
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add live_audit_reports/
-                - name: Upload Live Audit Reports
+      - name: Upload Live Audit Reports
         uses: actions/upload-artifact@v4
         with:
           name: live-website-audit-reports
           path: live_audit_reports/
           if-no-files-found: error
           retention-days: 7
-          # Agar links me koi badlav nahi hoga toh error nahi aayegi
-          git commit -m "Auto-generated: Broken links report" || echo "No changes to commit"
-          git push
+
+      - name: Commit and Push Audit Reports
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add live_audit_reports/
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            git commit -m "Update live website audit reports"
+            git push origin main
+          fi
