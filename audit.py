@@ -1,324 +1,272 @@
 #!/usr/bin/env python3
-"""Fast read-only live website link audit. Python standard library only."""
+"""Live canonical and SEO audit. Read-only; standard library only."""
 
 import csv
 import re
 import sys
-import time
-import argparse
-import threading
 from pathlib import Path
-from queue import Queue
-from collections import Counter
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse, urldefrag
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from collections import Counter
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; WebsiteLinkAudit/1.0)"}
-TIMEOUT = 12
+DEFAULT_SITE = "https://dolatrammpi-coder.github.io/Quiz/"
+TIMEOUT = 15
 WORKERS = 16
-CACHE = {}
-CACHE_LOCK = threading.Lock()
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; LiveSEOAudit/1.0)"}
 
 
-class Parser(HTMLParser):
+class SEOParser(HTMLParser):
     def __init__(self):
-        super().__init__()
-        self.base = None
-        self.links = []
-        self.current = None
+        super().__init__(convert_charrefs=True)
+        self.canonicals = []
+        self.descriptions = []
+        self.robots = []
+        self.h1_count = 0
+        self.title = ""
+        self.in_title = False
+        self.in_h1 = False
+        self.h1_text = []
+        self.title_text = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == "base" and self.base is None:
-            self.base = a.get("href")
-        if tag in ("a", "area") and a.get("href"):
-            self.current = {"href": a["href"], "text": ""}
-            self.links.append(self.current)
+        tag = tag.lower()
+
+        if tag == "link" and "canonical" in a.get("rel", "").lower().split():
+            self.canonicals.append(a.get("href", "").strip())
+
+        if tag == "meta":
+            name = a.get("name", "").lower().strip()
+            if name == "description":
+                self.descriptions.append(a.get("content", "").strip())
+            elif name == "robots":
+                self.robots.append(a.get("content", "").strip())
+
+        if tag == "title":
+            self.in_title = True
+
+        if tag == "h1":
+            self.h1_count += 1
+            self.in_h1 = True
+            self.h1_text.append("")
 
     def handle_data(self, data):
-        if self.current is not None:
-            self.current["text"] += data
+        if self.in_title:
+            self.title_text.append(data)
+        if self.in_h1:
+            self.h1_text[-1] += data
 
     def handle_endtag(self, tag):
-        if tag in ("a", "area"):
-            self.current = None
+        tag = tag.lower()
+        if tag == "title":
+            self.in_title = False
+        elif tag == "h1":
+            self.in_h1 = False
 
 
 def fetch(url):
     try:
         req = Request(url, headers=HEADERS)
-        with urlopen(req, timeout=TIMEOUT) as r:
-            data = r.read()
-            return r.status, r.geturl(), data, ""
-    except HTTPError as e:
-        return e.code, e.geturl(), b"", str(e)
-    except Exception as e:
-        return "ERROR", url, b"", str(e)
+        with urlopen(req, timeout=TIMEOUT) as response:
+            return response.status, response.geturl(), response.read(), ""
+    except HTTPError as exc:
+        return exc.code, exc.geturl(), b"", str(exc)
+    except Exception as exc:
+        return "ERROR", url, b"", str(exc)
 
 
-def check_url(url):
-    url = urldefrag(url)[0]
-
-    with CACHE_LOCK:
-        if url in CACHE:
-            return CACHE[url]
-
-    status, final_url, _, error = fetch(url)
-    result = classify(status)
-
-    answer = {
-        "status": status,
-        "final_url": final_url,
-        "result": result,
-        "error": error,
-    }
-
-    with CACHE_LOCK:
-        CACHE[url] = answer
-
-    return answer
-
-
-def classify(status):
-    if status == 200:
-        return "OK"
-    if isinstance(status, int):
-        if 300 <= status < 400:
-            return "REDIRECT"
-        if 400 <= status < 500:
-            return "CLIENT_ERROR"
-        if status >= 500:
-            return "SERVER_ERROR"
-    return "NETWORK_ERROR"
-
-
-def get_sitemap(site):
+def get_sitemap_urls(site):
     sitemap = urljoin(site, "sitemap.xml")
     status, _, body, error = fetch(sitemap)
 
     if not isinstance(status, int) or status >= 400:
         raise RuntimeError(
-            f"Sitemap unavailable: {sitemap} ({status}: {error})"
+            f"Cannot read sitemap: {sitemap}; status={status}; {error}"
         )
 
     urls = re.findall(
         rb"<loc>\s*(.*?)\s*</loc>", body, flags=re.I | re.S
     )
     return list(dict.fromkeys(
-        x.decode("utf-8", "replace").strip() for x in urls
+        u.decode("utf-8", "replace").strip() for u in urls
     ))
 
 
-def inspect_page(page, site_host):
-    status, final_url, body, error = fetch(page)
+def audit_page(url, site_host):
+    status, final_url, body, error = fetch(url)
 
-    page_row = {
-        "page": page,
-        "status": status,
+    row = {
+        "page_url": url,
+        "http_status": status,
         "final_url": final_url,
-        "result": classify(status),
+        "title": "",
+        "h1_count": "",
+        "canonical_count": "",
+        "canonical_url": "",
+        "canonical_status": "",
+        "description_count": "",
+        "description_length": "",
+        "robots_meta": "",
+        "issues": "",
         "error": error,
     }
 
     if not isinstance(status, int) or status >= 400 or not body:
-        return page_row, []
+        row["issues"] = "PAGE_UNAVAILABLE"
+        return row
 
-    parser = Parser()
+    parser = SEOParser()
     parser.feed(body.decode("utf-8", "replace"))
 
-    base = urljoin(final_url, parser.base) if parser.base else final_url
-    rows = []
+    title = " ".join("".join(parser.title_text).split())
+    canonicals = parser.canonicals
+    descriptions = parser.descriptions
+    issues = []
 
-    for link in parser.links:
-        href = link["href"].strip()
+    row["title"] = title
+    row["h1_count"] = parser.h1_count
+    row["canonical_count"] = len(canonicals)
+    row["description_count"] = len(descriptions)
+    row["robots_meta"] = " | ".join(parser.robots)
 
-        if not href or href.startswith(
-            ("#", "javascript:", "mailto:", "tel:", "data:")
-        ):
-            continue
+    if title == "":
+        issues.append("MISSING_TITLE")
 
-        target = urldefrag(urljoin(base, href))[0]
-        parsed = urlparse(target)
+    if parser.h1_count == 0:
+        issues.append("MISSING_H1")
+    elif parser.h1_count > 1:
+        issues.append("MULTIPLE_H1")
 
-        if parsed.scheme not in ("http", "https"):
-            continue
+    if not descriptions or not descriptions[0]:
+        issues.append("MISSING_DESCRIPTION")
+        row["description_length"] = 0
+    else:
+        row["description_length"] = len(descriptions[0])
 
-        rows.append({
-            "source_page": page,
-            "link_text": " ".join(link["text"].split())[:200],
-            "raw_href": href,
-            "target_url": target,
-            "same_site": parsed.netloc.lower() == site_host,
-        })
+    if len(canonicals) == 0:
+        issues.append("MISSING_CANONICAL")
+        row["canonical_status"] = "MISSING"
+    elif len(canonicals) > 1:
+        issues.append("MULTIPLE_CANONICALS")
+        row["canonical_status"] = "MULTIPLE"
+        row["canonical_url"] = " | ".join(canonicals)
+    else:
+        canonical = canonicals[0]
+        row["canonical_url"] = canonical
 
-    return page_row, rows
+        if not canonical:
+            issues.append("EMPTY_CANONICAL")
+            row["canonical_status"] = "EMPTY"
+        else:
+            resolved = urljoin(final_url, canonical)
+            row["canonical_url"] = resolved
+            parsed = urlparse(resolved)
+
+            if parsed.scheme not in ("http", "https"):
+                issues.append("INVALID_CANONICAL_URL")
+                row["canonical_status"] = "INVALID_URL"
+            elif parsed.netloc.lower() != site_host:
+                issues.append("EXTERNAL_CANONICAL")
+                row["canonical_status"] = "EXTERNAL"
+            elif urldefrag(resolved)[0].rstrip("/") != urldefrag(final_url)[0].rstrip("/"):
+                issues.append("CANONICAL_DIFFERS_FROM_PAGE")
+                row["canonical_status"] = "DIFFERENT_URL"
+            else:
+                row["canonical_status"] = "SELF_CANONICAL"
+
+    robots = ",".join(parser.robots).lower()
+    if "noindex" in robots:
+        issues.append("ROBOTS_NOINDEX")
+
+    row["issues"] = ";".join(issues) if issues else "NONE"
+    return row
 
 
-def write_csv(path, rows, columns):
+def save_csv(path, rows):
+    columns = [
+        "page_url", "http_status", "final_url", "title", "h1_count",
+        "canonical_count", "canonical_url", "canonical_status",
+        "description_count", "description_length", "robots_meta",
+        "issues", "error",
+    ]
     with path.open("w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
+        writer = csv.DictWriter(f, fieldnames=columns)
         writer.writeheader()
         writer.writerows(rows)
 
 
 def main():
-    ap = argparse.ArgumentParser(
-        description="Audit live website links and save CSV reports."
-    )
-    ap.add_argument(
-        "url",
-        nargs="?",
-        default="https://dolatrammpi-coder.github.io/Quiz/",
-        help="Website root URL",
-    )
-    ap.add_argument("--workers", type=int, default=WORKERS)
-    args = ap.parse_args()
-
-    site = args.url.rstrip("/") + "/"
+    site = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_SITE
+    site = site.rstrip("/") + "/"
     site_host = urlparse(site).netloc.lower()
-    output = Path("live_audit_reports")
+
+    output = Path("live_seo_reports")
     output.mkdir(parents=True, exist_ok=True)
 
-    print("Website:", site)
-    print("Reading sitemap...")
-    pages = get_sitemap(site)
+    print("LIVE SEO AUDIT:", site)
+    print("Fetching sitemap...")
 
-    # Keep pages belonging to the requested site.
-    pages = [
-        p for p in pages
-        if urlparse(p).netloc.lower() == site_host
-    ]
-
-    if not pages:
-        print("No site pages found in sitemap.")
+    try:
+        urls = get_sitemap_urls(site)
+    except Exception as exc:
+        print("ERROR:", exc)
         sys.exit(1)
 
-    print(f"Pages found: {len(pages)}")
-    print("Checking pages concurrently...")
+    urls = [
+        u for u in urls
+        if urlparse(u).netloc.lower() == site_host
+    ]
 
-    page_rows = []
-    link_rows = []
+    print("Sitemap pages:", len(urls))
+    rows = []
 
-    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         futures = {
-            pool.submit(inspect_page, page, site_host): page
-            for page in pages
+            pool.submit(audit_page, u, site_host): u for u in urls
         }
 
         for i, future in enumerate(as_completed(futures), 1):
             try:
-                page_row, links = future.result()
-                page_rows.append(page_row)
-                link_rows.extend(links)
-            except Exception as e:
-                page_rows.append({
-                    "page": futures[future],
-                    "status": "ERROR",
+                rows.append(future.result())
+            except Exception as exc:
+                rows.append({
+                    "page_url": futures[future],
+                    "http_status": "ERROR",
                     "final_url": "",
-                    "result": "NETWORK_ERROR",
-                    "error": str(e),
+                    "issues": "AUDIT_ERROR",
+                    "error": str(exc),
                 })
 
-            if i % 25 == 0 or i == len(futures):
-                print(f"Pages scanned: {i}/{len(futures)}")
-
-    print(f"Links discovered: {len(link_rows)}")
-    print("Checking unique link targets...")
-
-    unique_targets = list(dict.fromkeys(
-        row["target_url"] for row in link_rows
-    ))
-
-    results = {}
-    with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
-        futures = {
-            pool.submit(check_url, target): target
-            for target in unique_targets
-        }
-
-        for i, future in enumerate(as_completed(futures), 1):
-            target = futures[future]
-            try:
-                results[target] = future.result()
-            except Exception as e:
-                results[target] = {
-                    "status": "ERROR",
-                    "final_url": target,
-                    "result": "NETWORK_ERROR",
-                    "error": str(e),
-                }
-
             if i % 50 == 0 or i == len(futures):
-                print(f"Targets checked: {i}/{len(futures)}")
+                print(f"Pages checked: {i}/{len(futures)}")
 
-    for row in link_rows:
-        info = results[row["target_url"]]
-        row.update(info)
-        row["broken_candidate"] = info["result"] in (
-            "CLIENT_ERROR", "SERVER_ERROR", "NETWORK_ERROR"
-        )
+    rows.sort(key=lambda r: r.get("page_url", ""))
+    save_csv(output / "page_seo_audit.csv", rows)
 
-    # A separate CSV for links that need attention.
-    broken = [r for r in link_rows if r["broken_candidate"]]
-    redirects = [r for r in link_rows if r["result"] == "REDIRECT"]
-
-    write_csv(
-        output / "page_status.csv",
-        page_rows,
-        ["page", "status", "final_url", "result", "error"],
-    )
-    write_csv(
-        output / "all_links.csv",
-        link_rows,
-        [
-            "source_page", "link_text", "raw_href", "target_url",
-            "same_site", "status", "final_url", "result", "error",
-            "broken_candidate",
-        ],
-    )
-    write_csv(
-        output / "broken_links.csv",
-        broken,
-        [
-            "source_page", "link_text", "raw_href", "target_url",
-            "status", "final_url", "result", "error",
-        ],
-    )
-    write_csv(
-        output / "redirects.csv",
-        redirects,
-        [
-            "source_page", "link_text", "raw_href", "target_url",
-            "status", "final_url", "result", "error",
-        ],
-    )
-
-    counts = Counter(r["result"] for r in link_rows)
-    page_counts = Counter(r["result"] for r in page_rows)
+    issue_counts = Counter()
+    for row in rows:
+        for issue in row.get("issues", "").split(";"):
+            if issue and issue != "NONE":
+                issue_counts[issue] += 1
 
     summary = [
         f"Website: {site}",
-        f"Pages in sitemap: {len(pages)}",
-        f"Pages scanned: {len(page_rows)}",
-        f"Links discovered: {len(link_rows)}",
-        f"Unique URLs checked: {len(unique_targets)}",
+        f"Sitemap pages: {len(urls)}",
+        f"Pages audited: {len(rows)}",
         "",
-        "LINK RESULTS:",
+        "ISSUE COUNTS (pages may have multiple issues):",
     ]
-    summary.extend(f"{k}: {v}" for k, v in sorted(counts.items()))
-    summary += ["", "PAGE RESULTS:"]
-    summary.extend(f"{k}: {v}" for k, v in sorted(page_counts.items()))
+    summary.extend(
+        f"{name}: {count}" for name, count in sorted(issue_counts.items())
+    )
     summary += [
         "",
-        f"Broken candidates: {len(broken)}",
-        f"Redirects: {len(redirects)}",
-        "",
-        "Important: 403, 429 and network errors may be caused by bot blocking.",
-        "A 200 response confirms availability, not correct page content.",
-        "Pages absent from the sitemap may not be included.",
+        "This is a live HTML audit, not proof of Google indexing.",
+        "Canonical differences are flags for review, not automatic errors.",
+        "Check Google Search Console for actual indexing status.",
     ]
 
     (output / "summary.txt").write_text(
@@ -326,7 +274,7 @@ def main():
     )
 
     print("\n".join(summary))
-    print("\nReports saved in:", output.resolve())
+    print("\nReports saved to:", output.resolve())
 
 
 if __name__ == "__main__":
