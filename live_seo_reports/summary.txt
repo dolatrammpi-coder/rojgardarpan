@@ -3,8 +3,6 @@ Sitemap pages: 1086
 Pages audited: 1086
 
 ISSUE COUNTS (pages may have multiple issues):
-MISSING_DESCRIPTION: 1
-MISSING_H1: 4
 
 This is a live HTML audit, not proof of Google indexing.
 Canonical differences are flags for review, not automatic errors.
