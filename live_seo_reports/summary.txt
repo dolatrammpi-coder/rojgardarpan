@@ -1,8 +1,9 @@
 Website: https://dolatrammpi-coder.github.io/Quiz/
-Sitemap pages: 1086
-Pages audited: 1086
+Sitemap pages: 1198
+Pages audited: 1198
 
 ISSUE COUNTS (pages may have multiple issues):
+CANONICAL_DIFFERS_FROM_PAGE: 10
 
 This is a live HTML audit, not proof of Google indexing.
 Canonical differences are flags for review, not automatic errors.
